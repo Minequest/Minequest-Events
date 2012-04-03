@@ -1,0 +1,13 @@
+name: MineQuest-Events
+main: com.theminequest.MQCoreEvents.MQCoreEvents
+version: ${build.number}
+
+author: JMonk
+authors: [Echobob, Xu_R, Ltan, Makraiz, Blaksmith]
+
+description: This plugin, and its add-ons expands Minecraft to add in Npcs, Quests, and custom events to create a Role-Play enviorment in Minecraft
+website: www.theminequest.com
+
+load: POSTWORLD
+
+depend: [MineQuest]
