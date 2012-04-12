@@ -2,6 +2,10 @@ package com.theminequest.MQCoreEvents;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.theminequest.MQCoreEvents.BlockEvent.AdvancedBlockEvent;
+import com.theminequest.MQCoreEvents.BlockEvent.BlockCDEvent;
+import com.theminequest.MQCoreEvents.BlockEvent.BlockDCEvent;
+import com.theminequest.MQCoreEvents.BlockEvent.BlockEvent;
 import com.theminequest.MQCoreEvents.IdleEvent.IdleEvent;
 import com.theminequest.MineQuest.MineQuest;
 import com.theminequest.MineQuest.EventsAPI.EventManager;
@@ -14,7 +18,11 @@ public class MQCoreEvents extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		EventManager e = MineQuest.eventManager;
-		e.registerEvent("I", IdleEvent.class);
+		//e.registerEvent("I", IdleEvent.class);
+		e.registerEvent("AdvancedBlockEvent", AdvancedBlockEvent.class);
+		e.registerEvent("BlockCDEvent", BlockCDEvent.class);
+		e.registerEvent("BlockDCEvent", BlockDCEvent.class);
+		e.registerEvent("BlockEvent", BlockEvent.class);
 	}
 
 }
