@@ -1,5 +1,11 @@
 package com.theminequest.MQCoreEvents.BlockEvent;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+
+import com.theminequest.MineQuest.MineQuest;
 import com.theminequest.MineQuest.BukkitEvents.CompleteStatus;
 import com.theminequest.MineQuest.EventsAPI.QEvent;
 
@@ -14,7 +20,6 @@ public class BlockEvent extends QEvent {
 
 	public BlockEvent(long q, int e, String details) {
 		super(q, e, details);
-		// TODO Auto-generated constructor stub
 	}
 
 	/*
@@ -45,8 +50,11 @@ public class BlockEvent extends QEvent {
 
 	@Override
 	public CompleteStatus action() {
-		// TODO Auto-generated method stub
-		return null;
+		World w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).world);
+		Location l = new Location(w,X,Y,Z);
+		Block b = l.getBlock();
+		b.setTypeId(type);
+		return CompleteStatus.SUCCESS;
 	}
 
 }
