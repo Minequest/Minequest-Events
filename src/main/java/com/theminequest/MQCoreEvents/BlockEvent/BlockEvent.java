@@ -11,7 +11,7 @@ import com.theminequest.MineQuest.EventsAPI.QEvent;
 
 public class BlockEvent extends QEvent {
 	
-	private int timetowait;
+	private long timetowait;
 	private long starttime;
 	private int X;
 	private int Y;
@@ -32,7 +32,7 @@ public class BlockEvent extends QEvent {
 	@Override
 	public void parseDetails(String[] details) {
 		// TODO Auto-generated method stub
-		timetowait = Integer.parseInt(details[0]);
+		timetowait = Long.parseLong(details[0]);
 		X = Integer.parseInt(details[1]);
 		Y = Integer.parseInt(details[2]);
 		Z = Integer.parseInt(details[3]);
@@ -53,8 +53,10 @@ public class BlockEvent extends QEvent {
 		World w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).world);
 		Location l = new Location(w,X,Y,Z);
 		Block b = l.getBlock();
-		b.setTypeId(type);
-		return CompleteStatus.SUCCESS;
+		boolean status = b.setTypeId(type);
+		if (status)
+			return CompleteStatus.SUCCESS;
+		return CompleteStatus.FAILURE;
 	}
 
 }
