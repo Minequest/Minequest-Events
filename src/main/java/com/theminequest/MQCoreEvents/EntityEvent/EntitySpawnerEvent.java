@@ -22,7 +22,6 @@ public class EntitySpawnerEvent extends QEvent {
 	private World w;
 	private Location loc;
 	private EntityType t;
-	private boolean isSuper;
 	
 	private LivingEntity entity;
 	
@@ -51,7 +50,6 @@ public class EntitySpawnerEvent extends QEvent {
 		double z = Double.parseDouble(details[3]);
 		loc = new Location(w,x,y,z);
 		t = MobUtils.getEntityType(details[4]);
-		isSuper = false;
 		setup = false;
 		entity = null;
 		start = System.currentTimeMillis();

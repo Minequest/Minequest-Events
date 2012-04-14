@@ -1,31 +1,59 @@
 package com.theminequest.MQCoreEvents.EntityEvent;
 
+import java.util.List;
+
+import com.theminequest.MineQuest.MineQuest;
 import com.theminequest.MineQuest.BukkitEvents.CompleteStatus;
 import com.theminequest.MineQuest.EventsAPI.QEvent;
+import com.theminequest.MineQuest.Quest.Quest;
 
 public class EntitySpawnerNoMoveComplete extends QEvent {
 
+	private long delay;
+	private long starttime;
+	private int taskid;
+	
+	private List<Integer> eventids;
+
 	public EntitySpawnerNoMoveComplete(long q, int e, String details) {
 		super(q, e, details);
-		// TODO Auto-generated constructor stub
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.theminequest.MineQuest.EventsAPI.QEvent#parseDetails(java.lang.String[])
+	 * [0] Delay In MS
+	 * [1] Task ID
+	 * [2] eventid1,eventid2,eventid3,eventid4...
+	 */
 	@Override
 	public void parseDetails(String[] details) {
-		// TODO Auto-generated method stub
-
+		delay = Long.parseLong(details[0]);
+		taskid = Integer.parseInt(details[1]);
+		String[] eids = details[2].split(",");
+		for (String e : eids){
+			eventids.add(Integer.parseInt(e));
+		}
+		starttime = System.currentTimeMillis();
 	}
 
 	@Override
 	public boolean conditions() {
-		// TODO Auto-generated method stub
-		return false;
+		if ((System.currentTimeMillis()-starttime)>=delay)
+			return false;
+		return true;
 	}
 
 	@Override
 	public CompleteStatus action() {
-		// TODO Auto-generated method stub
-		return null;
+		Quest q = MineQuest.questManager.getQuest(getQuestId());
+		for (QEvent e : q.activeTask.getEvents()){
+			if (e instanceof EntitySpawnerNoMove)
+				e.complete(CompleteStatus.CANCELED);
+		}
+		if (!q.startTask(taskid))
+			return CompleteStatus.FAILURE;
+		return CompleteStatus.SUCCESS;
 	}
 
 }

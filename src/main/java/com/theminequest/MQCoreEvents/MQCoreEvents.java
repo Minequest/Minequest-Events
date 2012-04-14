@@ -8,6 +8,11 @@ import com.theminequest.MQCoreEvents.BlockEvent.AdvancedBlockEvent;
 import com.theminequest.MQCoreEvents.BlockEvent.BlockCDEvent;
 import com.theminequest.MQCoreEvents.BlockEvent.BlockDCEvent;
 import com.theminequest.MQCoreEvents.BlockEvent.BlockEvent;
+import com.theminequest.MQCoreEvents.EntityEvent.EntitySpawnerCompleteEvent;
+import com.theminequest.MQCoreEvents.EntityEvent.EntitySpawnerEvent;
+import com.theminequest.MQCoreEvents.EntityEvent.EntitySpawnerNoMove;
+import com.theminequest.MQCoreEvents.EntityEvent.EntitySpawnerNoMoveComplete;
+import com.theminequest.MQCoreEvents.EntityEvent.HealthEntitySpawn;
 import com.theminequest.MQCoreEvents.IdleEvent.IdleEvent;
 import com.theminequest.MineQuest.MineQuest;
 import com.theminequest.MineQuest.EventsAPI.EventManager;
@@ -27,6 +32,11 @@ public class MQCoreEvents extends JavaPlugin {
 		e.registerEvent("BlockCDEvent", BlockCDEvent.class);
 		e.registerEvent("BlockDCEvent", BlockDCEvent.class);
 		e.registerEvent("BlockEvent", BlockEvent.class);
+		e.registerEvent("EntitySpawnerCompleteEvent", EntitySpawnerCompleteEvent.class);
+		e.registerEvent("EntitySpawnerEvent", EntitySpawnerEvent.class);
+		e.registerEvent("EntitySpawnerNoMove", EntitySpawnerNoMove.class);
+		e.registerEvent("EntitySpawnerCompleteNMEvent", EntitySpawnerNoMoveComplete.class);
+		e.registerEvent("HealthEntitySpawn", HealthEntitySpawn.class);
 	}
 
 }
