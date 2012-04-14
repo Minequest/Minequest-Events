@@ -46,7 +46,7 @@ public class AdvancedBlockEvent extends QEvent {
 
 	@Override
 	public boolean conditions() {
-		if ((System.currentTimeMillis()-starttime)<delay)
+		if ((System.currentTimeMillis()-starttime)>=delay)
 			return false;
 		return true;
 	}
