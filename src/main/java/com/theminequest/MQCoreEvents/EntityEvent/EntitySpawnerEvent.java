@@ -93,4 +93,9 @@ public class EntitySpawnerEvent extends QEvent {
 			entity.setHealth(0);
 	}
 
+	@Override
+	public Integer switchTask() {
+		return null;
+	}
+
 }

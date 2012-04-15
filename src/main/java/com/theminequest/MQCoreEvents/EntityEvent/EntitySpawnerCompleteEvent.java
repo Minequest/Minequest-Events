@@ -51,9 +51,12 @@ public class EntitySpawnerCompleteEvent extends QEvent {
 			if (e instanceof EntitySpawnerEvent)
 				e.complete(CompleteStatus.CANCELED);
 		}
-		if (!q.startTask(taskid))
-			return CompleteStatus.FAILURE;
 		return CompleteStatus.SUCCESS;
+	}
+
+	@Override
+	public Integer switchTask() {
+		return taskid;
 	}
 
 }

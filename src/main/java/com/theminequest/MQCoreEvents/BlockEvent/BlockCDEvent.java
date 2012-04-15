@@ -71,4 +71,9 @@ public class BlockCDEvent extends QEvent {
 		else
 			return CompleteStatus.FAILURE;
 	}
+
+	@Override
+	public Integer switchTask() {
+		return null;
+	}
 }

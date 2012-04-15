@@ -28,4 +28,10 @@ public class WeatherEvent extends QEvent {
 		return null;
 	}
 
+	@Override
+	public Integer switchTask() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

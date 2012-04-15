@@ -91,4 +91,9 @@ public class EntitySpawnerNoMove extends QEvent {
 		if (!entity.isDead())
 			entity.setHealth(0);
 	}
+
+	@Override
+	public Integer switchTask() {
+		return null;
+	}
 }

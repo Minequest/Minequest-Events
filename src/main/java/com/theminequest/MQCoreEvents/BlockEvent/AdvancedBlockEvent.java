@@ -59,4 +59,9 @@ public class AdvancedBlockEvent extends QEvent {
 		return CompleteStatus.FAILURE;
 	}
 
+	@Override
+	public Integer switchTask() {
+		return null;
+	}
+
 }

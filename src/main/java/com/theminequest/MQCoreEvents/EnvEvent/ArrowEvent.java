@@ -61,4 +61,9 @@ public class ArrowEvent extends QEvent {
 		return CompleteStatus.SUCCESS;
 	}
 
+	@Override
+	public Integer switchTask() {
+		return null;
+	}
+
 }

@@ -95,4 +95,9 @@ public class ExplosionEvent extends QEvent {
 		}
 	}
 
+	@Override
+	public Integer switchTask() {
+		return null;
+	}
+
 }

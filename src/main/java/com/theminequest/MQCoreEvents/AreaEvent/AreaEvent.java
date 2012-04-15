@@ -67,10 +67,13 @@ public class AreaEvent extends QEvent {
 
 	@Override
 	public CompleteStatus action() {
-		if (MineQuest.questManager.getQuest(getQuestId()).startTask(taskid))
-			return CompleteStatus.SUCCESS;
-		return CompleteStatus.FAILURE;
+		return CompleteStatus.SUCCESS;
 		
+	}
+
+	@Override
+	public Integer switchTask() {
+		return taskid;
 	}
 
 }

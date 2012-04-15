@@ -84,10 +84,12 @@ public class HealthEntitySpawn extends QEvent {
 
 	@Override
 	public CompleteStatus action() {
-		Quest q = MineQuest.questManager.getQuest(getQuestId());
-		if (!q.startTask(taskid))
-			return CompleteStatus.FAILURE;
 		return CompleteStatus.SUCCESS;
+	}
+
+	@Override
+	public Integer switchTask() {
+		return taskid;
 	}
 
 }
