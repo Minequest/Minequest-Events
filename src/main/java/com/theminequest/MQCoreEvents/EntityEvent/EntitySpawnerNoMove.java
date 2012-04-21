@@ -42,7 +42,7 @@ public class EntitySpawnerNoMove extends QEvent {
 	@Override
 	public void parseDetails(String[] details) {
 		delay = Long.parseLong(details[0]);
-		w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).world);
+		w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).details.world);
 		double x = Double.parseDouble(details[1]);
 		double y = Double.parseDouble(details[2]);
 		double z = Double.parseDouble(details[3]);

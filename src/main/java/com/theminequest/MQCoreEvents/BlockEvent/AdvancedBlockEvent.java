@@ -34,7 +34,7 @@ public class AdvancedBlockEvent extends QEvent {
 	@Override
 	public void parseDetails(String[] details) {
 		delay = Long.parseLong(details[0]);
-		World W = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).world);
+		World W = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).details.world);
 		int X = Integer.parseInt(details[1]);
 		int Y = Integer.parseInt(details[2]);
 		int Z = Integer.parseInt(details[3]);

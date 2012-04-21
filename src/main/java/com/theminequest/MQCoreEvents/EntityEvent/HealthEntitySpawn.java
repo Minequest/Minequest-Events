@@ -54,7 +54,7 @@ public class HealthEntitySpawn extends QEvent {
 	public void parseDetails(String[] details) {
 		delay = Long.parseLong(details[0]);
 		taskid = Integer.parseInt(details[1]);
-		w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).world);
+		w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).details.world);
 		double x = Double.parseDouble(details[2]);
 		double y = Double.parseDouble(details[3]);
 		double z = Double.parseDouble(details[4]);

@@ -10,6 +10,7 @@ import org.bukkit.entity.LivingEntity;
 import com.theminequest.MineQuest.MineQuest;
 import com.theminequest.MineQuest.BukkitEvents.CompleteStatus;
 import com.theminequest.MineQuest.EventsAPI.QEvent;
+import com.theminequest.MineQuest.Quest.Quest;
 import com.theminequest.MineQuest.Target.TargetDetails;
 import com.theminequest.MineQuest.Target.TargetManager;
 import com.theminequest.MineQuest.Utils.NumberUtils;
@@ -55,7 +56,7 @@ public class ExplosionEvent extends QEvent {
 			double x = Double.parseDouble(details[1]);
 			double y = Double.parseDouble(details[2]);
 			double z = Double.parseDouble(details[3]);
-			World w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).world);
+			World w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).details.world);
 			loc = new Location(w,x,y,z);
 			radius = Double.parseDouble(details[4]);
 			Float f = NumberUtils.parseFloat(details[5]);
@@ -77,7 +78,8 @@ public class ExplosionEvent extends QEvent {
 	@Override
 	public CompleteStatus action() {
 		if (targeted){
-			List<LivingEntity> targets = TargetManager.getTarget(t);
+			Quest q = MineQuest.questManager.getQuest(getQuestId());
+			List<LivingEntity> targets = TargetManager.getTarget(q,t);
 			boolean status = true;
 			for (LivingEntity t : targets){
 				Location l = t.getLocation();

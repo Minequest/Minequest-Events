@@ -47,7 +47,7 @@ public class EntitySpawnerNoMoveComplete extends QEvent {
 	@Override
 	public CompleteStatus action() {
 		Quest q = MineQuest.questManager.getQuest(getQuestId());
-		for (QEvent e : q.activeTask.getEvents()){
+		for (QEvent e : q.getActiveTask().getEvents()){
 			if (e instanceof EntitySpawnerNoMove)
 				e.complete(CompleteStatus.CANCELED);
 		}

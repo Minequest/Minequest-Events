@@ -36,7 +36,7 @@ public class BlockDCEvent extends QEvent {
 	public void parseDetails(String[] details) {
 		firstdelay = Long.parseLong(details[0]);
 		seconddelay = Long.parseLong(details[1]);
-		World W = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).world);
+		World W = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).details.world);
 		int X = Integer.parseInt(details[2]);
 		int Y = Integer.parseInt(details[3]);
 		int Z = Integer.parseInt(details[4]);

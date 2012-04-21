@@ -46,7 +46,7 @@ public class AreaEvent extends QEvent {
 		int Z = Integer.parseInt(details[4]);
 		radiussq = Math.pow(Double.parseDouble(details[5]),2);
 		Quest q = MineQuest.questManager.getQuest(getQuestId());
-		loc = new Location(Bukkit.getWorld(q.world),X,Y,Z);
+		loc = new Location(Bukkit.getWorld(q.details.world),X,Y,Z);
 		group = MineQuest.groupManager.getGroup(MineQuest.groupManager.indexOfQuest(q));
 		player = new ArrayList<Player>();
 	}

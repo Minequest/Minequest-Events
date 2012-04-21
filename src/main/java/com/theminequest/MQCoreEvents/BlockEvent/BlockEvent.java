@@ -50,7 +50,7 @@ public class BlockEvent extends QEvent {
 
 	@Override
 	public CompleteStatus action() {
-		World w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).world);
+		World w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).details.world);
 		Location l = new Location(w,X,Y,Z);
 		Block b = l.getBlock();
 		boolean status = b.setTypeId(type);

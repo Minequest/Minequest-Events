@@ -36,7 +36,7 @@ public class ArrowEvent extends QEvent {
 	@Override
 	public void parseDetails(String[] details) {
 		delay = Long.parseLong(details[0]);
-		World w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).world);
+		World w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).details.world);
 		double lx = Double.parseDouble(details[1]);
 		double ly = Double.parseDouble(details[2]);
 		double lz = Double.parseDouble(details[3]);
