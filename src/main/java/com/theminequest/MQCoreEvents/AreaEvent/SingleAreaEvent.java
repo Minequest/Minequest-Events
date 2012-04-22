@@ -1,5 +1,7 @@
 package com.theminequest.MQCoreEvents.AreaEvent;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -15,9 +17,9 @@ public class SingleAreaEvent extends AreaEvent {
 
 	@Override
 	public boolean conditions() {
-		Player[] py = Bukkit.getOnlinePlayers();
+		List<Player> py = group.getPlayers();
 		for (Player p : py){
-			if (!group.contains(p))
+			if (!p.getWorld().getName().equals(group.getQuest().getWorld()))
 				continue;
 			if (p.getLocation().distanceSquared(loc)<=radiussq)
 				return true;

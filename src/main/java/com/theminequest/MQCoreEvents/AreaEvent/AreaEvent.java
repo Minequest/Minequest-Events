@@ -53,9 +53,9 @@ public class AreaEvent extends QEvent {
 
 	@Override
 	public boolean conditions() {
-		Player[] py = Bukkit.getOnlinePlayers();
+		List<Player> py = group.getPlayers();
 		for (Player p : py){
-			if (!group.contains(p) || player.contains(p))
+			if (!p.getWorld().getName().equals(group.getQuest().getWorld()))
 				continue;
 			if (p.getLocation().distanceSquared(loc)<=radiussq)
 				player.add(p);
