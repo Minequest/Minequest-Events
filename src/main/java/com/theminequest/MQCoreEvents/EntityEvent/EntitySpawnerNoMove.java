@@ -88,7 +88,7 @@ public class EntitySpawnerNoMove extends QEvent {
 	 */
 	@Override
 	public void cleanUpEvent() {
-		if (!entity.isDead())
+		if (entity!=null && !entity.isDead())
 			entity.setHealth(0);
 	}
 
