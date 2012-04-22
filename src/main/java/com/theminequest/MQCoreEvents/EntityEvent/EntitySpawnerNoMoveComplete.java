@@ -1,5 +1,6 @@
 package com.theminequest.MQCoreEvents.EntityEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.theminequest.MineQuest.MineQuest;
@@ -31,6 +32,7 @@ public class EntitySpawnerNoMoveComplete extends QEvent {
 		delay = Long.parseLong(details[0]);
 		taskid = Integer.parseInt(details[1]);
 		String[] eids = details[2].split(",");
+		eventids = new ArrayList<Integer>();
 		for (String e : eids){
 			eventids.add(Integer.parseInt(e));
 		}
