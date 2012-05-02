@@ -21,7 +21,7 @@ public class SingleAreaEvent extends AreaEvent {
 		for (Player p : py){
 			if (!p.getWorld().getName().equals(group.getQuest().getWorld()))
 				continue;
-			if (p.getLocation().distanceSquared(loc)<=radiussq)
+			if (p.getLocation().distance(loc)<=radius)
 				return true;
 		}
 		return false;

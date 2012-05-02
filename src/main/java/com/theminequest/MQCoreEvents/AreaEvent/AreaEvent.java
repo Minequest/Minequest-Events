@@ -18,7 +18,7 @@ public class AreaEvent extends QEvent {
 	//private long delay;
 	private int taskid;
 	protected Location loc;
-	protected double radiussq;
+	protected double radius;
 	
 	private List<Player> player;
 	protected Group group;
@@ -44,7 +44,7 @@ public class AreaEvent extends QEvent {
 		int X = Integer.parseInt(details[2]);
 		int Y = Integer.parseInt(details[3]);
 		int Z = Integer.parseInt(details[4]);
-		radiussq = Math.pow(Double.parseDouble(details[5]),2);
+		radius = Double.parseDouble(details[5]);
 		Quest q = MineQuest.questManager.getQuest(getQuestId());
 		loc = new Location(Bukkit.getWorld(q.details.world),X,Y,Z);
 		group = MineQuest.groupManager.getGroup(MineQuest.groupManager.indexOfQuest(q));
@@ -57,7 +57,7 @@ public class AreaEvent extends QEvent {
 		for (Player p : py){
 			if (!p.getWorld().getName().equals(group.getQuest().getWorld()))
 				continue;
-			if (p.getLocation().distanceSquared(loc)<=radiussq)
+			if (p.getLocation().distance(loc)<=radius)
 				player.add(p);
 		}
 		if (player.size()>=group.getPlayers().size())
