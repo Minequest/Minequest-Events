@@ -1,41 +1,69 @@
 package com.theminequest.MQCoreEvents.GroupEvent;
 
+import java.util.List;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.LivingEntity;
+
 import com.theminequest.MineQuest.BukkitEvents.CompleteStatus;
 import com.theminequest.MineQuest.EventsAPI.QEvent;
+import com.theminequest.MineQuest.EventsAPI.TargetedQEvent;
 
-public class TeleportEvent extends QEvent {
+public class TeleportEvent extends TargetedQEvent {
+	
+	private long delay;
+	private int targetid;
+	private Location loc;
 
 	public TeleportEvent(long q, int e, String details) {
 		super(q, e, details);
 		// TODO Auto-generated constructor stub
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see com.theminequest.MineQuest.EventsAPI.QEvent#parseDetails(java.lang.String[])
-	 * HANDLE TARGETING
-	 */
+	
 	@Override
-	public void parseDetails(String[] details) {
-		// TODO Auto-generated method stub
-
+	public boolean enableTargets() {
+		return true;
 	}
 
 	@Override
-	public boolean conditions() {
-		// TODO Auto-generated method stub
-		return false;
+	public int getTargetId() {
+		return targetid;
+	}
+
+	@Override
+	public long getDelay() {
+		return delay;
+	}
+
+	@Override
+	public boolean delayedConditions() {
+		return true;
+	}
+
+	@Override
+	public void parseDetails(String[] details) {
+		delay = Long.parseLong(details[0]);
+		targetid = Integer.parseInt(details[1]);
+		World w = Bukkit.getWorld(getQuest().getWorld());
+		double x = Double.parseDouble(details[2]);
+		double y = Double.parseDouble(details[3]);
+		double z = Double.parseDouble(details[4]);
+		loc = new Location(w,x,y,z);
 	}
 
 	@Override
 	public CompleteStatus action() {
-		// TODO Auto-generated method stub
-		return null;
+		List<LivingEntity> targets = getTargets();
+		for (LivingEntity e : targets){
+			e.teleport(loc);
+		}
+		return CompleteStatus.SUCCESS;
 	}
 
 	@Override
 	public Integer switchTask() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -1,41 +1,62 @@
 package com.theminequest.MQCoreEvents.GroupEvent;
 
+import java.util.List;
+
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.entity.EntityDamageEvent;
+
 import com.theminequest.MineQuest.BukkitEvents.CompleteStatus;
 import com.theminequest.MineQuest.EventsAPI.QEvent;
+import com.theminequest.MineQuest.EventsAPI.TargetedQEvent;
 
-public class PoisonEvent extends QEvent {
+public class PoisonEvent extends TargetedQEvent {
 
+	private long delay;
+	private int targetid;
+	private int times;
+	
 	public PoisonEvent(long q, int e, String details) {
 		super(q, e, details);
-		// TODO Auto-generated constructor stub
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.theminequest.MineQuest.EventsAPI.QEvent#parseDetails(java.lang.String[])
-	 * HANDLE TARGETING
-	 */
+	@Override
+	public boolean enableTargets() {
+		return true;
+	}
+
+	@Override
+	public int getTargetId() {
+		return targetid;
+	}
+
+	@Override
+	public long getDelay() {
+		return delay;
+	}
+
+	@Override
+	public boolean delayedConditions() {
+		return true;
+	}
+
 	@Override
 	public void parseDetails(String[] details) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean conditions() {
-		// TODO Auto-generated method stub
-		return false;
+		delay = Long.parseLong(details[0]);
+		targetid = Integer.parseInt(details[1]);
+		times = Integer.parseInt(details[2]);
 	}
 
 	@Override
 	public CompleteStatus action() {
-		// TODO Auto-generated method stub
-		return null;
+		List<LivingEntity> targets = getTargets();
+		for (LivingEntity e : targets){
+			e.damage(1);
+		}
+		return CompleteStatus.SUCCESS;
 	}
 
 	@Override
 	public Integer switchTask() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
