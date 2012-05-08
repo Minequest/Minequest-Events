@@ -9,11 +9,12 @@ import org.bukkit.entity.Player;
 
 import com.theminequest.MineQuest.MineQuest;
 import com.theminequest.MineQuest.BukkitEvents.CompleteStatus;
+import com.theminequest.MineQuest.EventsAPI.NamedQEvent;
 import com.theminequest.MineQuest.EventsAPI.QEvent;
 import com.theminequest.MineQuest.Group.Group;
 import com.theminequest.MineQuest.Quest.Quest;
 
-public class AreaEvent extends QEvent {
+public class AreaEvent extends QEvent implements NamedQEvent {
 	
 	//private long delay;
 	private int taskid;
@@ -45,7 +46,7 @@ public class AreaEvent extends QEvent {
 		int Y = Integer.parseInt(details[3]);
 		int Z = Integer.parseInt(details[4]);
 		radius = Double.parseDouble(details[5]);
-		Quest q = MineQuest.questManager.getQuest(getQuestId());
+		Quest q = getQuest();
 		loc = new Location(Bukkit.getWorld(q.details.world),X,Y,Z);
 		group = MineQuest.groupManager.getGroup(MineQuest.groupManager.indexOfQuest(q));
 		player = new ArrayList<Player>();
@@ -74,6 +75,11 @@ public class AreaEvent extends QEvent {
 	@Override
 	public Integer switchTask() {
 		return taskid;
+	}
+
+	@Override
+	public String getDescription() {
+		return "Head to " + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "! (" + radius + " block leeway)";
 	}
 
 }
