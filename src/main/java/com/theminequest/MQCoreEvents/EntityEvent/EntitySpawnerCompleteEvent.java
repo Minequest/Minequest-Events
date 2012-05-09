@@ -50,8 +50,8 @@ public class EntitySpawnerCompleteEvent extends QEvent {
 	public CompleteStatus action() {
 		Quest q = MineQuest.questManager.getQuest(getQuestId());
 		for (QEvent e : q.getActiveTask().getEvents()){
-			if (e instanceof EntitySpawnerEvent)
-				e.complete(CompleteStatus.CANCELED);
+			if (eventids.contains(e.getEventId()))
+				e.complete(CompleteStatus.IGNORE);
 		}
 		return CompleteStatus.SUCCESS;
 	}

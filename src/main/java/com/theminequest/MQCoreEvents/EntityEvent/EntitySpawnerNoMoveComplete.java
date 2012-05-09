@@ -8,6 +8,11 @@ import com.theminequest.MineQuest.BukkitEvents.CompleteStatus;
 import com.theminequest.MineQuest.EventsAPI.QEvent;
 import com.theminequest.MineQuest.Quest.Quest;
 
+/**
+ * Essentially useless, does the same thing as EntitySpawnerCompleteEvent!
+ *
+ */
+@Deprecated
 public class EntitySpawnerNoMoveComplete extends QEvent {
 
 	private long delay;
@@ -50,8 +55,8 @@ public class EntitySpawnerNoMoveComplete extends QEvent {
 	public CompleteStatus action() {
 		Quest q = MineQuest.questManager.getQuest(getQuestId());
 		for (QEvent e : q.getActiveTask().getEvents()){
-			if (e instanceof EntitySpawnerNoMove)
-				e.complete(CompleteStatus.CANCELED);
+			if (eventids.contains(e.getEventId()))
+				e.complete(CompleteStatus.IGNORE);
 		}
 		return CompleteStatus.SUCCESS;
 	}
