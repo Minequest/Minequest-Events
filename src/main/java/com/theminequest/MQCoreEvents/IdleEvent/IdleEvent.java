@@ -1,6 +1,6 @@
 package com.theminequest.MQCoreEvents.IdleEvent;
 
-import com.theminequest.MineQuest.BukkitEvents.CompleteStatus;
+import com.theminequest.MineQuest.CompleteStatus;
 import com.theminequest.MineQuest.EventsAPI.QEvent;
 
 public abstract class IdleEvent extends QEvent {

@@ -5,8 +5,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
 
+import com.theminequest.MineQuest.CompleteStatus;
 import com.theminequest.MineQuest.MineQuest;
-import com.theminequest.MineQuest.BukkitEvents.CompleteStatus;
 import com.theminequest.MineQuest.EventsAPI.QEvent;
 
 public class ArrowEvent extends QEvent {

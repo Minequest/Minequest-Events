@@ -6,7 +6,7 @@ import org.bukkit.World;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import com.theminequest.MineQuest.BukkitEvents.CompleteStatus;
+import com.theminequest.MineQuest.CompleteStatus;
 import com.theminequest.MineQuest.EventsAPI.NamedQEvent;
 import com.theminequest.MineQuest.EventsAPI.QEvent;
 

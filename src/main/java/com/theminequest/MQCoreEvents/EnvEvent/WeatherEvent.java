@@ -3,8 +3,8 @@ package com.theminequest.MQCoreEvents.EnvEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
+import com.theminequest.MineQuest.CompleteStatus;
 import com.theminequest.MineQuest.MineQuest;
-import com.theminequest.MineQuest.BukkitEvents.CompleteStatus;
 import com.theminequest.MineQuest.EventsAPI.QEvent;
 import com.theminequest.MineQuest.Quest.Quest;
 

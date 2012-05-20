@@ -4,8 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import com.theminequest.MineQuest.CompleteStatus;
 import com.theminequest.MineQuest.MineQuest;
-import com.theminequest.MineQuest.BukkitEvents.CompleteStatus;
 import com.theminequest.MineQuest.EventsAPI.QEvent;
 
 public class BlockDCEvent extends QEvent {
