@@ -33,11 +33,11 @@ public class BlockCDEvent extends QuestEvent {
 		firstdelay = Long.parseLong(details[0]);
 		seconddelay = Long.parseLong(details[1]);
 		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
-		World W = Bukkit.getWorld(worldname);
-		int X = Integer.parseInt(details[2]);
-		int Y = Integer.parseInt(details[3]);
-		int Z = Integer.parseInt(details[4]);
-		loc = new Location(W,X,Y,Z);
+		World w = Bukkit.getWorld(worldname);
+		int x = Integer.parseInt(details[2]);
+		int y = Integer.parseInt(details[3]);
+		int z = Integer.parseInt(details[4]);
+		loc = new Location(w,x,y,z);
 		typeid = Integer.parseInt(details[5]);
 		step = 0;
 		starttime = System.currentTimeMillis();
