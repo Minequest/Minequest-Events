@@ -1,17 +1,13 @@
 package com.theminequest.MQCoreEvents.GroupEvent;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
-import com.theminequest.MineQuest.EventsAPI.TargetedQEvent;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Events.TargetQuestEvent;
 
 @Deprecated
-public class LineOfSightEvent extends TargetedQEvent {
+public class LineOfSightEvent extends TargetQuestEvent {
 	
 	private int tasktoexecute;
-
-	public LineOfSightEvent(long q, int e, String details) {
-		super(q, e, details);
-	}
 
 	@Override
 	public boolean enableTargets() {

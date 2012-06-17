@@ -3,23 +3,17 @@ package com.theminequest.MQCoreEvents.EnvEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.MineQuest;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
-import com.theminequest.MineQuest.Quest.Quest;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Quest.QuestDetails;
 
-public class WeatherEvent extends QEvent {
+public class WeatherEvent extends QuestEvent {
 	
 	private long delay;
 	private long starttime;
 	
 	private boolean rain;
 	private int duration;
-
-	public WeatherEvent(long q, int e, String details) {
-		super(q, e, details);
-		// TODO Auto-generated constructor stub
-	}
 
 	// Duration is in ticks.
 	@Override
@@ -39,8 +33,8 @@ public class WeatherEvent extends QEvent {
 
 	@Override
 	public CompleteStatus action() {
-		Quest q = MineQuest.questManager.getQuest(getQuestId());
-		World w = Bukkit.getWorld(q.getWorld());
+		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
+		World w = Bukkit.getWorld(worldname);
 		w.setStorm(rain);
 		w.setWeatherDuration(duration);
 		return CompleteStatus.SUCCESS;

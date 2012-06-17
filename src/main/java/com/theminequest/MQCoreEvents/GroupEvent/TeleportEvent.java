@@ -7,20 +7,16 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
-import com.theminequest.MineQuest.EventsAPI.TargetedQEvent;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Events.TargetQuestEvent;
+import com.theminequest.MineQuest.API.Quest.QuestDetails;
 
-public class TeleportEvent extends TargetedQEvent {
+public class TeleportEvent extends TargetQuestEvent {
 	
 	private long delay;
 	private int targetid;
 	private Location loc;
-
-	public TeleportEvent(long q, int e, String details) {
-		super(q, e, details);
-		// TODO Auto-generated constructor stub
-	}
 	
 	@Override
 	public boolean enableTargets() {
@@ -46,7 +42,8 @@ public class TeleportEvent extends TargetedQEvent {
 	public void parseDetails(String[] details) {
 		delay = Long.parseLong(details[0]);
 		targetid = Integer.parseInt(details[1]);
-		World w = Bukkit.getWorld(getQuest().getWorld());
+		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
+		World w = Bukkit.getWorld(worldname);
 		double x = Double.parseDouble(details[2]);
 		double y = Double.parseDouble(details[3]);
 		double z = Double.parseDouble(details[4]);

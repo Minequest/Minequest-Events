@@ -5,11 +5,11 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.MineQuest;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Quest.QuestDetails;
 
-public class BlockEvent extends QEvent {
+public class BlockEvent extends QuestEvent {
 	
 	private long timetowait;
 	private long starttime;
@@ -17,10 +17,6 @@ public class BlockEvent extends QEvent {
 	private int Y;
 	private int Z;
 	private int type;
-
-	public BlockEvent(long q, int e, String details) {
-		super(q, e, details);
-	}
 
 	/*
 	 * [0] delay in MS
@@ -50,7 +46,8 @@ public class BlockEvent extends QEvent {
 
 	@Override
 	public CompleteStatus action() {
-		World w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).details.world);
+		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
+		World w = Bukkit.getWorld(worldname);
 		Location l = new Location(w,X,Y,Z);
 		Block b = l.getBlock();
 		boolean status = b.setTypeId(type);

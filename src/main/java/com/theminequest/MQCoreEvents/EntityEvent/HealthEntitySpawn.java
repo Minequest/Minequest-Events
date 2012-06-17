@@ -5,19 +5,19 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.MineQuest;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
-import com.theminequest.MineQuest.Quest.Quest;
-import com.theminequest.MineQuest.Utils.MobUtils;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Quest.QuestDetails;
+import com.theminequest.MineQuest.API.Utils.MobUtils;
 
 /*
- * An alternative to this will be coming soon.
+ * An improved version of this will come soon.
  */
 @Deprecated
-public class HealthEntitySpawn extends QEvent {
+public class HealthEntitySpawn extends QuestEvent {
 
 	private long delay;
 	private long start;
@@ -34,13 +34,9 @@ public class HealthEntitySpawn extends QEvent {
 	
 	private boolean setup;
 
-	public HealthEntitySpawn(long q, int e, String details) {
-		super(q, e, details);
-	}
-
 	/*
 	 * (non-Javadoc)
-	 * @see com.theminequest.MineQuest.EventsAPI.QEvent#parseDetails(java.lang.String[])
+	 * @see com.theminequest.MineQuest.Events.QEvent#parseDetails(java.lang.String[])
 	 * [0] Delay in MS
 	 * [1] Task
 	 * [2] X
@@ -54,7 +50,8 @@ public class HealthEntitySpawn extends QEvent {
 	public void parseDetails(String[] details) {
 		delay = Long.parseLong(details[0]);
 		taskid = Integer.parseInt(details[1]);
-		w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).details.world);
+		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
+		w = Bukkit.getWorld(worldname);
 		double x = Double.parseDouble(details[2]);
 		double y = Double.parseDouble(details[3]);
 		double z = Double.parseDouble(details[4]);
@@ -66,7 +63,7 @@ public class HealthEntitySpawn extends QEvent {
 		entity = null;
 		start = System.currentTimeMillis();
 	}
-
+	
 	@Override
 	public boolean conditions() {
 		if (!setup){

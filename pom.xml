@@ -12,21 +12,21 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<build.Number>unofficialDev</build.Number>
 	</properties>
-		<distributionManagement>
-  <!-- Publish versioned releases here -->
-  <repository>
-    <id>nexus</id>
-    <name>Nexus.Lincom</name>
-    <url>http://build.lincomlinux.org/nexus/content/repositories/releases</url>
-  </repository>
- 
-  <!-- Publish snapshots here -->
-  <snapshotRepository>
-    <id>nexus</id>
-    <name>Nexus.Lincom</name>
-    <url>http://build.lincomlinux.org/nexus/content/repositories/snapshots</url>
-  </snapshotRepository>
-</distributionManagement>
+	<distributionManagement>
+		<!-- Publish versioned releases here -->
+		<repository>
+			<id>nexus</id>
+			<name>Nexus.Lincom</name>
+			<url>http://build.lincomlinux.org/nexus/content/repositories/releases</url>
+		</repository>
+
+		<!-- Publish snapshots here -->
+		<snapshotRepository>
+			<id>nexus</id>
+			<name>Nexus.Lincom</name>
+			<url>http://build.lincomlinux.org/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.bukkit</groupId>
@@ -44,8 +44,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.theminequest</groupId>
-			<artifactId>MineQuest</artifactId>
-			<version>dev-SNAPSHOT</version>
+			<artifactId>MineQuest-API</artifactId>
+			<version>2.0.0-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

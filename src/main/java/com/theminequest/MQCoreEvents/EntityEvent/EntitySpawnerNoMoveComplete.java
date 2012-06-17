@@ -3,17 +3,16 @@ package com.theminequest.MQCoreEvents.EntityEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.MineQuest;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
-import com.theminequest.MineQuest.Quest.Quest;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Quest.Quest;
 
 /**
  * Essentially useless, does the same thing as EntitySpawnerCompleteEvent!
  *
  */
 @Deprecated
-public class EntitySpawnerNoMoveComplete extends QEvent {
+public class EntitySpawnerNoMoveComplete extends QuestEvent {
 
 	private long delay;
 	private long starttime;
@@ -21,13 +20,9 @@ public class EntitySpawnerNoMoveComplete extends QEvent {
 	
 	private List<Integer> eventids;
 
-	public EntitySpawnerNoMoveComplete(long q, int e, String details) {
-		super(q, e, details);
-	}
-
 	/*
 	 * (non-Javadoc)
-	 * @see com.theminequest.MineQuest.EventsAPI.QEvent#parseDetails(java.lang.String[])
+	 * @see com.theminequest.MineQuest.Events.QEvent#parseDetails(java.lang.String[])
 	 * [0] Delay In MS
 	 * [1] Task ID
 	 * [2] eventid1,eventid2,eventid3,eventid4...
@@ -53,8 +48,8 @@ public class EntitySpawnerNoMoveComplete extends QEvent {
 
 	@Override
 	public CompleteStatus action() {
-		Quest q = MineQuest.questManager.getQuest(getQuestId());
-		for (QEvent e : q.getActiveTask().getEvents()){
+		Quest q = getQuest();
+		for (QuestEvent e : q.getActiveTask().getEvents()){
 			if (eventids.contains(e.getEventId()))
 				e.complete(CompleteStatus.IGNORE);
 		}

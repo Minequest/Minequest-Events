@@ -6,22 +6,19 @@ import org.bukkit.World;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.EventsAPI.NamedQEvent;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Events.UserQuestEvent;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Quest.QuestDetails;
 
-public class BlockRightClickEvent extends QEvent implements NamedQEvent {
+public class BlockRightClickEvent extends QuestEvent implements UserQuestEvent {
 	
 	private Location loc;
 	private int taskid;
 
-	public BlockRightClickEvent(long q, int e, String details) {
-		super(q, e, details);
-	}
-
 	/*
 	 * (non-Javadoc)
-	 * @see com.theminequest.MineQuest.EventsAPI.QEvent#parseDetails(java.lang.String[])
+	 * @see com.theminequest.MineQuest.Events.QEvent#parseDetails(java.lang.String[])
 	 * [0] X
 	 * [1] Y
 	 * [2] Z
@@ -29,7 +26,8 @@ public class BlockRightClickEvent extends QEvent implements NamedQEvent {
 	 */
 	@Override
 	public void parseDetails(String[] details) {
-		World locW = Bukkit.getWorld(getQuest().getWorld());
+		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
+		World locW = Bukkit.getWorld(worldname);
 		int locX = Integer.parseInt(details[0]);
 		int locY = Integer.parseInt(details[1]);
 		int locZ = Integer.parseInt(details[2]);

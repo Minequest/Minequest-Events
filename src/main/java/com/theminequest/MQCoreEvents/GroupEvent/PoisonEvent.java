@@ -4,20 +4,18 @@ import java.util.List;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
-import com.theminequest.MineQuest.EventsAPI.TargetedQEvent;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Events.TargetQuestEvent;
 
-public class PoisonEvent extends TargetedQEvent {
+public class PoisonEvent extends TargetQuestEvent {
 
 	private long delay;
 	private int targetid;
 	private int times;
-	
-	public PoisonEvent(long q, int e, String details) {
-		super(q, e, details);
-	}
 
 	@Override
 	public boolean enableTargets() {
@@ -50,7 +48,7 @@ public class PoisonEvent extends TargetedQEvent {
 	public CompleteStatus action() {
 		List<LivingEntity> targets = getTargets();
 		for (LivingEntity e : targets){
-			e.damage(1);
+			e.addPotionEffect(new PotionEffect(PotionEffectType.POISON, times*20, 1), true);
 		}
 		return CompleteStatus.SUCCESS;
 	}

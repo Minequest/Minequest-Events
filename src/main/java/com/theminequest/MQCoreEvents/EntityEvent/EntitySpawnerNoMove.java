@@ -7,12 +7,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDeathEvent;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.MineQuest;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
-import com.theminequest.MineQuest.Utils.MobUtils;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Quest.QuestDetails;
+import com.theminequest.MineQuest.API.Utils.MobUtils;
 
-public class EntitySpawnerNoMove extends QEvent {
+public class EntitySpawnerNoMove extends QuestEvent {
 
 	private long delay;
 	private long start;
@@ -25,13 +25,9 @@ public class EntitySpawnerNoMove extends QEvent {
 	
 	private boolean setup;
 
-	public EntitySpawnerNoMove(long q, int e, String details) {
-		super(q, e, details);
-	}
-
 	/*
 	 * (non-Javadoc)
-	 * @see com.theminequest.MineQuest.EventsAPI.QEvent#parseDetails(java.lang.String[])
+	 * @see com.theminequest.MineQuest.Events.QEvent#parseDetails(java.lang.String[])
 	 * [0] Delay in MS
 	 * [1] X
 	 * [2] Y
@@ -42,7 +38,8 @@ public class EntitySpawnerNoMove extends QEvent {
 	@Override
 	public void parseDetails(String[] details) {
 		delay = Long.parseLong(details[0]);
-		w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).details.world);
+		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
+		w = Bukkit.getWorld(worldname);
 		double x = Double.parseDouble(details[1]);
 		double y = Double.parseDouble(details[2]);
 		double z = Double.parseDouble(details[3]);
@@ -72,7 +69,7 @@ public class EntitySpawnerNoMove extends QEvent {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.theminequest.MineQuest.EventsAPI.QEvent#entityDeathCondition(org.bukkit.event.entity.EntityDeathEvent)
+	 * @see com.theminequest.MineQuest.Events.QEvent#entityDeathCondition(org.bukkit.event.entity.EntityDeathEvent)
 	 */
 	@Override
 	public boolean entityDeathCondition(EntityDeathEvent e) {
@@ -84,7 +81,7 @@ public class EntitySpawnerNoMove extends QEvent {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.theminequest.MineQuest.EventsAPI.QEvent#cleanUpEvent()
+	 * @see com.theminequest.MineQuest.Events.QEvent#cleanUpEvent()
 	 */
 	@Override
 	public void cleanUpEvent() {

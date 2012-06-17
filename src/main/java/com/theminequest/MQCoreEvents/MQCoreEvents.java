@@ -16,8 +16,8 @@ import com.theminequest.MQCoreEvents.EntityEvent.HealthEntitySpawn;
 import com.theminequest.MQCoreEvents.EnvEvent.ArrowEvent;
 import com.theminequest.MQCoreEvents.EnvEvent.ExplosionEvent;
 import com.theminequest.MQCoreEvents.IdleEvent.IdleEvent;
-import com.theminequest.MineQuest.MineQuest;
-import com.theminequest.MineQuest.EventsAPI.EventManager;
+import com.theminequest.MineQuest.API.Managers;
+import com.theminequest.MineQuest.API.Events.EventManager;
 
 public class MQCoreEvents extends JavaPlugin {
 
@@ -26,21 +26,21 @@ public class MQCoreEvents extends JavaPlugin {
 	 */
 	@Override
 	public void onEnable() {
-		EventManager e = MineQuest.eventManager;
+		EventManager e = Managers.getEventManager();
 		//e.registerEvent("I", IdleEvent.class);
-		e.registerEvent("AreaEvent", AreaEvent.class);
-		e.registerEvent("SingleAreaEvent", SingleAreaEvent.class);
-		e.registerEvent("AdvancedBlockEvent", AdvancedBlockEvent.class);
-		e.registerEvent("BlockCDEvent", BlockCDEvent.class);
-		e.registerEvent("BlockDCEvent", BlockDCEvent.class);
-		e.registerEvent("BlockEvent", BlockEvent.class);
-		e.registerEvent("EntitySpawnerCompleteEvent", EntitySpawnerCompleteEvent.class);
-		e.registerEvent("EntitySpawnerEvent", EntitySpawnerEvent.class);
-		e.registerEvent("EntitySpawnerNoMove", EntitySpawnerNoMove.class);
-		e.registerEvent("EntitySpawnerCompleteNMEvent", EntitySpawnerNoMoveComplete.class);
-		e.registerEvent("HealthEntitySpawn", HealthEntitySpawn.class);
-		e.registerEvent("ArrowEvent", ArrowEvent.class);
-		e.registerEvent("ExplosionEvent", ExplosionEvent.class);
+		e.addEvent("AreaEvent", AreaEvent.class);
+		e.addEvent("SingleAreaEvent", SingleAreaEvent.class);
+		e.addEvent("AdvancedBlockEvent", AdvancedBlockEvent.class);
+		e.addEvent("BlockCDEvent", BlockCDEvent.class);
+		e.addEvent("BlockDCEvent", BlockDCEvent.class);
+		e.addEvent("BlockEvent", BlockEvent.class);
+		e.addEvent("EntitySpawnerCompleteEvent", EntitySpawnerCompleteEvent.class);
+		e.addEvent("EntitySpawnerEvent", EntitySpawnerEvent.class);
+		e.addEvent("EntitySpawnerNoMove", EntitySpawnerNoMove.class);
+		e.addEvent("EntitySpawnerCompleteNMEvent", EntitySpawnerNoMoveComplete.class);
+		e.addEvent("HealthEntitySpawn", HealthEntitySpawn.class);
+		e.addEvent("ArrowEvent", ArrowEvent.class);
+		e.addEvent("ExplosionEvent", ExplosionEvent.class);
 	}
 
 }

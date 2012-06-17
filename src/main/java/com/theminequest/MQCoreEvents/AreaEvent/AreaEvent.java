@@ -7,14 +7,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.MineQuest;
-import com.theminequest.MineQuest.EventsAPI.NamedQEvent;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
-import com.theminequest.MineQuest.Group.Group;
-import com.theminequest.MineQuest.Quest.Quest;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Managers;
+import com.theminequest.MineQuest.API.Events.UserQuestEvent;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Group.Group;
+import com.theminequest.MineQuest.API.Quest.Quest;
+import com.theminequest.MineQuest.API.Quest.QuestDetails;
 
-public class AreaEvent extends QEvent implements NamedQEvent {
+public class AreaEvent extends QuestEvent implements UserQuestEvent {
 	
 	//private long delay;
 	private int taskid;
@@ -24,13 +25,9 @@ public class AreaEvent extends QEvent implements NamedQEvent {
 	private List<Player> player;
 	protected Group group;
 
-	public AreaEvent(long q, int e, String details) {
-		super(q, e, details);
-	}
-
 	/*
 	 * (non-Javadoc)
-	 * @see com.theminequest.MineQuest.EventsAPI.QEvent#parseDetails(java.lang.String[])
+	 * @see com.theminequest.MineQuest.Events.QEvent#parseDetails(java.lang.String[])
 	 * [0] DELAY in MS (depreciated)
 	 * [1] Task #
 	 * [2] X
@@ -47,21 +44,22 @@ public class AreaEvent extends QEvent implements NamedQEvent {
 		int Z = Integer.parseInt(details[4]);
 		radius = Double.parseDouble(details[5]);
 		Quest q = getQuest();
-		loc = new Location(Bukkit.getWorld(q.details.world),X,Y,Z);
-		group = MineQuest.groupManager.getGroup(MineQuest.groupManager.indexOfQuest(q));
+		loc = new Location(Bukkit.getWorld((String) q.getDetails().getProperty(QuestDetails.QUEST_WORLD)),X,Y,Z);
+		group = Managers.getQuestGroupManager().get(getQuest());
 		player = new ArrayList<Player>();
 	}
 
 	@Override
 	public boolean conditions() {
-		List<Player> py = group.getPlayers();
+		List<Player> py = group.getMembers();
+		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
 		for (Player p : py){
-			if (!p.getWorld().getName().equals(group.getQuest().getWorld()))
+			if (!p.getWorld().getName().equals(worldname))
 				continue;
 			if (p.getLocation().distance(loc)<=radius)
 				player.add(p);
 		}
-		if (player.size()>=group.getPlayers().size())
+		if (player.size()>=group.getMembers().size())
 			return true;
 		return false;
 	}

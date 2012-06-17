@@ -1,14 +1,9 @@
 package com.theminequest.MQCoreEvents.IdleEvent;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
 
-public abstract class IdleEvent extends QEvent {
-
-	public IdleEvent(long q, int e, String details) {
-		super(q, e, details);
-		// TODO Auto-generated constructor stub
-	}
+public abstract class IdleEvent extends QuestEvent {
 
 	@Override
 	public void parseDetails(String[] details) {

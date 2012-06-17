@@ -7,13 +7,14 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.MineQuest;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
-import com.theminequest.MineQuest.Quest.Quest;
-import com.theminequest.MineQuest.Target.TargetManager;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Managers;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Quest.Quest;
+import com.theminequest.MineQuest.API.Quest.QuestDetails;
+import com.theminequest.MineQuest.API.Quest.QuestUtils;
 
-public class LightningEvent extends QEvent {
+public class LightningEvent extends QuestEvent {
 	
 	private long delay;
 	private long starttime;
@@ -22,14 +23,9 @@ public class LightningEvent extends QEvent {
 	private int targetid;
 	private Location loc;
 
-	public LightningEvent(long q, int e, String details) {
-		super(q, e, details);
-		// TODO Auto-generated constructor stub
-	}
-
 	/*
 	 * (non-Javadoc)
-	 * @see com.theminequest.MineQuest.EventsAPI.QEvent#parseDetails(java.lang.String[])
+	 * @see com.theminequest.MineQuest.Events.QEvent#parseDetails(java.lang.String[])
 	 * HANDLE NORMAL + TARGETING
 	 */
 	@Override
@@ -41,7 +37,8 @@ public class LightningEvent extends QEvent {
 		}else{
 			targeted = false;
 			delay = Long.parseLong(details[0]);
-			World w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).getWorld());
+			String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
+			World w = Bukkit.getWorld(worldname);
 			double x = Double.parseDouble(details[0]);
 			double y = Double.parseDouble(details[1]);
 			double z = Double.parseDouble(details[2]);
@@ -59,10 +56,10 @@ public class LightningEvent extends QEvent {
 
 	@Override
 	public CompleteStatus action() {
-		Quest q = MineQuest.questManager.getQuest(getQuestId());
-		World w = Bukkit.getWorld(q.getWorld());
+		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
+		World w = Bukkit.getWorld(worldname);
 		if (targeted){
-			List<LivingEntity> targets = TargetManager.getTarget(q,q.getTarget(targetid));
+			List<LivingEntity> targets = Managers.getTargetManager().processTargetDetails(getQuest(), QuestUtils.getTargetDetails(getQuest(), targetid));
 			for (LivingEntity e : targets){
 				w.strikeLightning(e.getLocation());
 			}

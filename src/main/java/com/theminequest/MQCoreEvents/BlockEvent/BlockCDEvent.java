@@ -4,11 +4,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.MineQuest;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Quest.QuestDetails;
 
-public class BlockCDEvent extends QEvent {
+public class BlockCDEvent extends QuestEvent {
 
 	private long firstdelay;
 	private long seconddelay;
@@ -17,14 +17,9 @@ public class BlockCDEvent extends QEvent {
 	private long starttime;
 	private int step;
 
-	public BlockCDEvent(long q, int e, String details) {
-		super(q, e, details);
-		// TODO Auto-generated constructor stub
-	}
-	
 	/*
 	 * (non-Javadoc)
-	 * @see com.theminequest.MineQuest.EventsAPI.QEvent#parseDetails(java.lang.String[])
+	 * @see com.theminequest.MineQuest.Events.QEvent#parseDetails(java.lang.String[])
 	 * Destroy, then create
 	 * [0]: first delay in MS before create
 	 * [1]: second delay is MS after create before destroy
@@ -37,7 +32,8 @@ public class BlockCDEvent extends QEvent {
 	public void parseDetails(String[] details) {
 		firstdelay = Long.parseLong(details[0]);
 		seconddelay = Long.parseLong(details[1]);
-		World W = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).details.world);
+		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
+		World W = Bukkit.getWorld(worldname);
 		int X = Integer.parseInt(details[2]);
 		int Y = Integer.parseInt(details[3]);
 		int Z = Integer.parseInt(details[4]);

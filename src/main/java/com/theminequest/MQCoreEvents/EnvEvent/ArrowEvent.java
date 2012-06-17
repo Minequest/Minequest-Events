@@ -5,11 +5,11 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.MineQuest;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Quest.QuestDetails;
 
-public class ArrowEvent extends QEvent {
+public class ArrowEvent extends QuestEvent {
 	
 	private long delay;
 	private long starttime;
@@ -17,13 +17,9 @@ public class ArrowEvent extends QEvent {
 	private Location loc;
 	private Vector dest;
 
-	public ArrowEvent(long q, int e, String details) {
-		super(q, e, details);
-	}
-
 	/*
 	 * (non-Javadoc)
-	 * @see com.theminequest.MineQuest.EventsAPI.QEvent#parseDetails(java.lang.String[])
+	 * @see com.theminequest.MineQuest.Events.QEvent#parseDetails(java.lang.String[])
 	 * 
 	 * [0] Delay in MS
 	 * [1] loc x
@@ -36,7 +32,8 @@ public class ArrowEvent extends QEvent {
 	@Override
 	public void parseDetails(String[] details) {
 		delay = Long.parseLong(details[0]);
-		World w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).details.world);
+		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
+		World w = Bukkit.getWorld(worldname);
 		double lx = Double.parseDouble(details[1]);
 		double ly = Double.parseDouble(details[2]);
 		double lz = Double.parseDouble(details[3]);

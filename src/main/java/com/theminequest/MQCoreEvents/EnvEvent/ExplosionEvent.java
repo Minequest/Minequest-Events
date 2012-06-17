@@ -7,15 +7,16 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.MineQuest;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
-import com.theminequest.MineQuest.Quest.Quest;
-import com.theminequest.MineQuest.Target.TargetDetails;
-import com.theminequest.MineQuest.Target.TargetManager;
-import com.theminequest.MineQuest.Utils.NumberUtils;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Managers;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Quest.Quest;
+import com.theminequest.MineQuest.API.Quest.QuestDetails;
+import com.theminequest.MineQuest.API.Quest.QuestUtils;
+import com.theminequest.MineQuest.API.Target.TargetDetails;
+import com.theminequest.MineQuest.API.Utils.NumberUtils;
 
-public class ExplosionEvent extends QEvent {
+public class ExplosionEvent extends QuestEvent {
 	
 	private boolean targeted;
 	
@@ -28,14 +29,9 @@ public class ExplosionEvent extends QEvent {
 	private double radius;
 	private float dmg;
 
-	public ExplosionEvent(long q, int e, String details) {
-		super(q, e, details);
-		// TODO Auto-generated constructor stub
-	}
-
 	/*
 	 * (non-Javadoc)
-	 * @see com.theminequest.MineQuest.EventsAPI.QEvent#parseDetails(java.lang.String[])
+	 * @see com.theminequest.MineQuest.Events.QEvent#parseDetails(java.lang.String[])
 	 * HANDLE NORMAL + TARGETING
 	 */
 	@Override
@@ -43,7 +39,7 @@ public class ExplosionEvent extends QEvent {
 		if (details[0].equalsIgnoreCase("T")){
 			targeted = true;
 			delay = Long.parseLong(details[1]);
-			t = MineQuest.questManager.getQuest(getQuestId()).getTarget(Integer.parseInt(details[2]));
+			t = QuestUtils.getTargetDetails(getQuest(), Integer.parseInt(details[2]));
 			radius = Double.parseDouble(details[3]);
 			Float f = NumberUtils.parseFloat(details[4]);
 			if (f==null)
@@ -56,7 +52,8 @@ public class ExplosionEvent extends QEvent {
 			double x = Double.parseDouble(details[1]);
 			double y = Double.parseDouble(details[2]);
 			double z = Double.parseDouble(details[3]);
-			World w = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).details.world);
+			String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
+			World w = Bukkit.getWorld(worldname);
 			loc = new Location(w,x,y,z);
 			radius = Double.parseDouble(details[4]);
 			Float f = NumberUtils.parseFloat(details[5]);
@@ -78,8 +75,8 @@ public class ExplosionEvent extends QEvent {
 	@Override
 	public CompleteStatus action() {
 		if (targeted){
-			Quest q = MineQuest.questManager.getQuest(getQuestId());
-			List<LivingEntity> targets = TargetManager.getTarget(q,t);
+			Quest q = getQuest();
+			List<LivingEntity> targets = Managers.getTargetManager().processTargetDetails(q,t);
 			boolean status = true;
 			for (LivingEntity t : targets){
 				Location l = t.getLocation();

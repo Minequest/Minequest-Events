@@ -4,11 +4,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import com.theminequest.MineQuest.CompleteStatus;
-import com.theminequest.MineQuest.MineQuest;
-import com.theminequest.MineQuest.EventsAPI.QEvent;
+import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Quest.QuestDetails;
 
-public class AdvancedBlockEvent extends QEvent {
+public class AdvancedBlockEvent extends QuestEvent {
 	
 	private long delay;
 	private Location loc;
@@ -16,14 +16,9 @@ public class AdvancedBlockEvent extends QEvent {
 	private byte damage;
 	private long starttime;
 
-	public AdvancedBlockEvent(long q, int e, String details) {
-		super(q, e, details);
-		// TODO Auto-generated constructor stub
-	}
-
 	/*
 	 * (non-Javadoc)
-	 * @see com.theminequest.MineQuest.EventsAPI.QEvent#parseDetails(java.lang.String[])
+	 * @see com.theminequest.MineQuest.Events.QEvent#parseDetails(java.lang.String[])
 	 * [0] delay in MS
 	 * [1] X
 	 * [2] Y
@@ -34,7 +29,8 @@ public class AdvancedBlockEvent extends QEvent {
 	@Override
 	public void parseDetails(String[] details) {
 		delay = Long.parseLong(details[0]);
-		World W = Bukkit.getWorld(MineQuest.questManager.getQuest(getQuestId()).details.world);
+		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
+		World W = Bukkit.getWorld(worldname);
 		int X = Integer.parseInt(details[1]);
 		int Y = Integer.parseInt(details[2]);
 		int Z = Integer.parseInt(details[3]);
