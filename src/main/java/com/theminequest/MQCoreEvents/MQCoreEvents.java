@@ -15,6 +15,7 @@ import com.theminequest.MQCoreEvents.EntityEvent.EntitySpawnerNoMoveComplete;
 import com.theminequest.MQCoreEvents.EntityEvent.HealthEntitySpawn;
 import com.theminequest.MQCoreEvents.EnvEvent.ArrowEvent;
 import com.theminequest.MQCoreEvents.EnvEvent.ExplosionEvent;
+import com.theminequest.MQCoreEvents.EnvEvent.LightningEvent;
 import com.theminequest.MQCoreEvents.GroupEvent.TeleportEvent;
 import com.theminequest.MQCoreEvents.IdleEvent.IdleEvent;
 import com.theminequest.MineQuest.API.Managers;
@@ -43,6 +44,7 @@ public class MQCoreEvents extends JavaPlugin {
 		e.addEvent("ArrowEvent", ArrowEvent.class);
 		e.addEvent("ExplosionEvent", ExplosionEvent.class);
 		e.addEvent("TeleportEvent", TeleportEvent.class);
+		e.addEvent("LightningEvent", LightningEvent.class);
 	}
 
 }
