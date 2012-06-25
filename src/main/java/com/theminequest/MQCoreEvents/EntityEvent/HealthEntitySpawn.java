@@ -72,10 +72,12 @@ public class HealthEntitySpawn extends QuestEvent {
 				entity = w.spawnCreature(loc,t);
 			}
 		}
-		if (entity.isDead())
-			return true;
-		if (stay)
-			entity.teleport(loc);
+		if (entity != null) {
+			if (entity.isDead())
+				return true;
+			if (stay)
+				entity.teleport(loc);
+		}
 		return false;
 	}
 
