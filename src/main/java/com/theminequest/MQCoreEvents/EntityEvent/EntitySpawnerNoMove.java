@@ -58,7 +58,8 @@ public class EntitySpawnerNoMove extends QuestEvent {
 				entity = w.spawnCreature(loc,t);
 			}
 		}
-		entity.teleport(loc);
+		if (entity != null && !entity.isDead())
+			entity.teleport(loc);
 		return false;
 	}
 
