@@ -31,7 +31,7 @@ public class LineOfSightEvent extends TargetQuestEvent {
 	}
 
 	@Override
-	public void parseDetails(String[] details) {
+	public void additionalDetails(String[] details) {
 		tasktoexecute = Integer.parseInt(details[3]);
 	}
 

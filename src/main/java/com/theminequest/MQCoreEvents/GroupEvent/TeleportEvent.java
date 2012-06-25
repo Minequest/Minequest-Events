@@ -39,7 +39,7 @@ public class TeleportEvent extends TargetQuestEvent {
 	}
 
 	@Override
-	public void parseDetails(String[] details) {
+	public void additionalDetails(String[] details) {
 		delay = Long.parseLong(details[0]);
 		targetid = Integer.parseInt(details[1]);
 		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);

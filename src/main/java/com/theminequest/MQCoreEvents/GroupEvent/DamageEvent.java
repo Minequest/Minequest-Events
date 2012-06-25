@@ -42,7 +42,7 @@ public class DamageEvent extends TargetQuestEvent {
 	 * [2] amount of damage
 	 */
 	@Override
-	public void parseDetails(String[] details) {
+	public void additionalDetails(String[] details) {
 		delay = Long.parseLong(details[0]);
 		targetid = Integer.parseInt(details[1]);
 		damage = Integer.parseInt(details[2]);

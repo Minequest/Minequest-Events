@@ -42,7 +42,7 @@ public class HealthEvent extends TargetQuestEvent {
 	 * [2] Percent of Max
 	 */
 	@Override
-	public void parseDetails(String[] details) {
+	public void additionalDetails(String[] details) {
 		delay = Long.parseLong(details[0]);
 		targetid = Integer.parseInt(details[1]);
 		percentage = Double.parseDouble(details[2])/100;

@@ -18,11 +18,6 @@ public class PoisonEvent extends TargetQuestEvent {
 	private int times;
 
 	@Override
-	public boolean enableTargets() {
-		return true;
-	}
-
-	@Override
 	public int getTargetId() {
 		return targetid;
 	}
@@ -38,7 +33,7 @@ public class PoisonEvent extends TargetQuestEvent {
 	}
 
 	@Override
-	public void parseDetails(String[] details) {
+	public void additionalDetails(String[] details) {
 		delay = Long.parseLong(details[0]);
 		targetid = Integer.parseInt(details[1]);
 		times = Integer.parseInt(details[2]);
