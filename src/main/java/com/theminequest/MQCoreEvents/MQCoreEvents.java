@@ -28,6 +28,16 @@ public class MQCoreEvents extends JavaPlugin {
 	 */
 	@Override
 	public void onEnable() {
+		if (!getServer().getPluginManager().isPluginEnabled("MineQuest")) {
+			getServer().getLogger().severe("============= MineQuest-Events ===============");
+			getServer().getLogger().severe("MineQuest is required for MineQuest-Events!");
+			getServer().getLogger().severe("Please install MineQuest first!");
+			getServer().getLogger().severe("You can find the latest version here:");
+			getServer().getLogger().severe("http://dev.bukkit.org/server-mods/minequest/");
+			getServer().getLogger().severe("==============================================");
+			setEnabled(false);
+			return;
+		}
 		EventManager e = Managers.getEventManager();
 		//e.registerEvent("I", IdleEvent.class);
 		e.addEvent("AreaEvent", AreaEvent.class);

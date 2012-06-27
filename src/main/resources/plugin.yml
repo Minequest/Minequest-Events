@@ -10,4 +10,4 @@ website: www.theminequest.com
 
 load: POSTWORLD
 
-depend: [MineQuest]
+softdepend: [MineQuest]
