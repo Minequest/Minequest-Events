@@ -11,7 +11,7 @@ import com.theminequest.MineQuest.API.Events.UserQuestEvent;
 import com.theminequest.MineQuest.API.Events.QuestEvent;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 
-public class BlockRightClickEvent extends QuestEvent implements UserQuestEvent {
+public class BlockInteractEvent extends QuestEvent implements UserQuestEvent {
 	
 	private Location loc;
 	private int taskid;
@@ -52,16 +52,14 @@ public class BlockRightClickEvent extends QuestEvent implements UserQuestEvent {
 
 	@Override
 	public boolean playerInteractCondition(PlayerInteractEvent e) {
-		if (e.getAction()==Action.RIGHT_CLICK_BLOCK){
-			if (e.getClickedBlock().getState().getLocation().equals(loc))
-				return true;
-		}
-		return false;
+		if (e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_AIR))
+			return false;
+		return e.getClickedBlock().getLocation().equals(loc);
 	}
 
 	@Override
 	public String getDescription() {
-		return "Right click the block at " + loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ() + "!";
+		return "Interact with the block at " + loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ() + "!";
 	}
 
 }

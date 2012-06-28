@@ -8,6 +8,7 @@ import com.theminequest.MQCoreEvents.BlockEvent.AdvancedBlockEvent;
 import com.theminequest.MQCoreEvents.BlockEvent.BlockCDEvent;
 import com.theminequest.MQCoreEvents.BlockEvent.BlockDCEvent;
 import com.theminequest.MQCoreEvents.BlockEvent.BlockEvent;
+import com.theminequest.MQCoreEvents.BlockEvent.BlockInteractEvent;
 import com.theminequest.MQCoreEvents.EntityEvent.EntitySpawnerCompleteEvent;
 import com.theminequest.MQCoreEvents.EntityEvent.EntitySpawnerEvent;
 import com.theminequest.MQCoreEvents.EntityEvent.EntitySpawnerNoMove;
@@ -55,6 +56,7 @@ public class MQCoreEvents extends JavaPlugin {
 		e.addEvent("ExplosionEvent", ExplosionEvent.class);
 		e.addEvent("TeleportEvent", TeleportEvent.class);
 		e.addEvent("LightningEvent", LightningEvent.class);
+		e.addEvent("BlockInteractEvent", BlockInteractEvent.class);
 	}
 
 }
