@@ -53,7 +53,7 @@ public class BlockEvent extends QuestEvent {
 		boolean status = b.setTypeId(type);
 		if (status)
 			return CompleteStatus.SUCCESS;
-		return CompleteStatus.FAILURE;
+		return CompleteStatus.WARNING;
 	}
 
 	@Override
