@@ -5,18 +5,13 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.theminequest.MineQuest.API.CompleteStatus;
 import com.theminequest.MineQuest.API.Events.QuestEvent;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 import com.theminequest.MineQuest.API.Utils.MobUtils;
 
-/*
- * An improved version of this will come soon.
- */
-@Deprecated
 public class HealthEntitySpawn extends QuestEvent {
 
 	private long delay;
@@ -33,6 +28,10 @@ public class HealthEntitySpawn extends QuestEvent {
 	private boolean stay;
 	
 	private boolean setup;
+	
+	private volatile boolean scheduled;
+	
+	private int currentHealth;
 
 	/*
 	 * (non-Javadoc)
@@ -56,12 +55,15 @@ public class HealthEntitySpawn extends QuestEvent {
 		double y = Double.parseDouble(details[3]);
 		double z = Double.parseDouble(details[4]);
 		loc = new Location(w,x,y,z);
+		System.out.println(details[5]);
 		t = MobUtils.getEntityType(details[5]);
 		health = Integer.parseInt(details[6]);
 		stay = ("t".equalsIgnoreCase(details[7]));
 		setup = false;
 		entity = null;
 		start = System.currentTimeMillis();
+		scheduled = false;
+		currentHealth = health;
 	}
 	
 	@Override
@@ -69,15 +71,59 @@ public class HealthEntitySpawn extends QuestEvent {
 		if (!setup){
 			if (System.currentTimeMillis()-start>=delay){
 				setup = true;
-				entity = w.spawnCreature(loc,t);
+				Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("MineQuest"), new Runnable() {
+					public void run() {
+						entity = w.spawnCreature(loc, t);
+						if (health < entity.getMaxHealth())
+							entity.setHealth(health);
+					}
+				});
 			}
 		}
 		if (entity != null) {
 			if (entity.isDead())
 				return true;
-			if (stay)
-				entity.teleport(loc);
+			
+			if (stay) {
+				synchronized (this) {
+					if (!scheduled) {
+						scheduled = true;
+						Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("MineQuest"), new Runnable() {
+							public void run() {
+								if (isComplete() == null) {
+									if (!entity.isDead())
+										entity.teleport(loc);
+								}
+								scheduled = false;
+							}
+						});
+					}
+				}
+			}
 		}
+		return false;
+	}
+	
+	@Override
+	public boolean entityDamageCondition(EntityDamageEvent e){
+		if (entity == null)
+			return false;
+		
+		if (!e.getEntity().equals(entity))
+			return false;
+		
+		int eventDamage = e.getDamage();
+		
+		// check no damage ticks first
+        if (eventDamage < entity.getLastDamage() && entity.getNoDamageTicks() > entity.getMaximumNoDamageTicks() / 2)
+            return false;
+		
+		if (currentHealth > entity.getMaxHealth()) {
+			entity.setHealth(entity.getMaxHealth());
+		} else if (entity.getHealth() < currentHealth)
+			entity.setHealth(currentHealth);
+		
+		currentHealth -= eventDamage;
 		return false;
 	}
 
