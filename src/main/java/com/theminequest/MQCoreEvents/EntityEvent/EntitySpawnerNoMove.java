@@ -24,6 +24,8 @@ public class EntitySpawnerNoMove extends QuestEvent {
 	private LivingEntity entity;
 	
 	private boolean setup;
+	
+	private volatile boolean scheduled;
 
 	/*
 	 * (non-Javadoc)
@@ -48,6 +50,7 @@ public class EntitySpawnerNoMove extends QuestEvent {
 		setup = false;
 		entity = null;
 		start = System.currentTimeMillis();
+		scheduled = false;
 	}
 
 	@Override
@@ -55,11 +58,33 @@ public class EntitySpawnerNoMove extends QuestEvent {
 		if (!setup){
 			if (System.currentTimeMillis()-start>=delay){
 				setup = true;
-				entity = w.spawnCreature(loc,t);
+				Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("MineQuest"), new Runnable() {
+					public void run() {
+						entity = w.spawnCreature(loc, t);
+					}
+				});
+				return false;
 			}
 		}
-		if (entity != null && !entity.isDead())
-			entity.teleport(loc);
+		
+		if (entity != null) {
+			synchronized (this) {
+				if (!scheduled) {
+					scheduled = true;
+					Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("MineQuest"), new Runnable() {
+						public void run() {
+							if (isComplete() == null) {
+								if (entity.isDead())
+									entity = w.spawnCreature(loc, t);
+								else
+									entity.teleport(loc);
+							}
+							scheduled = false;
+						}
+					});
+				}
+			}
+		}
 		return false;
 	}
 
@@ -67,18 +92,6 @@ public class EntitySpawnerNoMove extends QuestEvent {
 	public CompleteStatus action() {
 		// It should NEVER get here.
 		return CompleteStatus.FAILURE;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.theminequest.MineQuest.Events.QEvent#entityDeathCondition(org.bukkit.event.entity.EntityDeathEvent)
-	 */
-	@Override
-	public boolean entityDeathCondition(EntityDeathEvent e) {
-		if (entity.equals(e.getEntity())){
-			if (isComplete()==null)
-				entity = w.spawnCreature(loc, t);
-		}
-		return false;
 	}
 
 	/* (non-Javadoc)

@@ -26,6 +26,8 @@ public class EntitySpawnerEvent extends QuestEvent {
 	private LivingEntity entity;
 	
 	private boolean setup;
+	
+	private volatile boolean scheduled;
 
 	/*
 	 * (non-Javadoc)
@@ -50,6 +52,7 @@ public class EntitySpawnerEvent extends QuestEvent {
 		setup = false;
 		entity = null;
 		start = System.currentTimeMillis();
+		scheduled = false;
 	}
 
 	@Override
@@ -57,7 +60,28 @@ public class EntitySpawnerEvent extends QuestEvent {
 		if (!setup){
 			if (System.currentTimeMillis()-start>=delay){
 				setup = true;
-				entity = w.spawnCreature(loc,t);
+				Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("MineQuest"), new Runnable() {
+					public void run() {
+						entity = w.spawnCreature(loc, t);
+					}
+				});
+				return false;
+			}
+			
+			if (entity != null && entity.isDead()) {
+				synchronized (this) {
+					if (!scheduled) {
+						scheduled = true;
+						Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("MineQuest"), new Runnable() {
+							public void run() {
+								if (isComplete() == null) {
+									entity = w.spawnCreature(loc, t);
+								}
+								scheduled = false;
+							}
+						});
+					}
+				}
 			}
 		}
 		return false;
