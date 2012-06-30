@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Events.DelayedQuestEvent;
 import com.theminequest.MineQuest.API.Events.QuestEvent;
 import com.theminequest.MineQuest.API.Quest.Quest;
 
-public class EntitySpawnerCompleteEvent extends QuestEvent {
+public class EntitySpawnerCompleteEvent extends DelayedQuestEvent {
 	
 	private long delay;
-	private long starttime;
 	private int taskid;
 	
 	private List<Integer> eventids;
@@ -31,13 +31,10 @@ public class EntitySpawnerCompleteEvent extends QuestEvent {
 		for (String e : eids){
 			eventids.add(Integer.parseInt(e));
 		}
-		starttime = System.currentTimeMillis();
 	}
 
 	@Override
-	public boolean conditions() {
-		if ((System.currentTimeMillis()-starttime)>=delay)
-			return false;
+	public boolean delayedConditions() {
 		return true;
 	}
 
@@ -54,6 +51,11 @@ public class EntitySpawnerCompleteEvent extends QuestEvent {
 	@Override
 	public Integer switchTask() {
 		return taskid;
+	}
+
+	@Override
+	public long getDelay() {
+		return delay;
 	}
 
 }

@@ -18,7 +18,6 @@ import com.theminequest.MQCoreEvents.EnvEvent.ArrowEvent;
 import com.theminequest.MQCoreEvents.EnvEvent.ExplosionEvent;
 import com.theminequest.MQCoreEvents.EnvEvent.LightningEvent;
 import com.theminequest.MQCoreEvents.GroupEvent.TeleportEvent;
-import com.theminequest.MQCoreEvents.IdleEvent.IdleEvent;
 import com.theminequest.MineQuest.API.Managers;
 import com.theminequest.MineQuest.API.Events.EventManager;
 
