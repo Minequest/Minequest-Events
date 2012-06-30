@@ -1,14 +1,22 @@
 package com.theminequest.MQCoreEvents.EntityEvent;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Tameable;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Managers;
 import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Group.QuestGroup;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 import com.theminequest.MineQuest.API.Utils.MobUtils;
 
@@ -84,6 +92,46 @@ public class EntitySpawnerNoMove extends QuestEvent {
 					});
 				}
 			}
+		}
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.theminequest.MineQuest.Events.QEvent#entityDeathCondition(org.bukkit.event.entity.EntityDeathEvent)
+	 */
+	@Override
+	public boolean entityDeathCondition(EntityDeathEvent e) {
+		if (entity.equals(e.getEntity())) {
+			// if people outside the party kill mob, give no xp or items to prevent exploiting
+			LivingEntity el = (LivingEntity) e.getEntity();
+			if (el.getLastDamageCause() instanceof EntityDamageByEntityEvent) {			
+				EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) el.getLastDamageCause();
+				Player p = null;
+				if (edbee.getDamager() instanceof Player) {
+					p = (Player) edbee.getDamager();
+				} else if (edbee.getDamager() instanceof Projectile) {
+					Projectile projectile = (Projectile) edbee.getDamager();
+					if (projectile.getShooter() instanceof Player) {
+						p = (Player) projectile.getShooter();
+					}
+				} else if (edbee.getDamager() instanceof Tameable) {
+					Tameable tameable = (Tameable) edbee.getDamager();
+					if (tameable.getOwner() instanceof Player) {
+						p = (Player) tameable.getOwner();
+					}
+				}
+				
+				if (p != null) {
+					QuestGroup g = Managers.getQuestGroupManager().get(getQuest());
+					List<Player> team = g.getMembers();
+					if (team.contains(p))
+						return false;
+				}
+			}
+			
+			// outside of party gives no drops
+			e.setDroppedExp(0);
+			e.getDrops().clear();
 		}
 		return false;
 	}
