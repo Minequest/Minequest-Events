@@ -18,7 +18,7 @@ public class SingleAreaEvent extends AreaEvent {
 		for (Player p : py){
 			if (!p.getWorld().getName().equals(worldname))
 				continue;
-			if (p.getLocation().distance(loc)<=radius)
+			if (p.getLocation().distance(getLocation())<=radius)
 				return true;
 		}
 		return false;

@@ -19,7 +19,7 @@ public class AreaEvent extends QuestEvent implements UserQuestEvent {
 	
 	//private long delay;
 	private int taskid;
-	protected Location loc;
+	private Location loc;
 	protected double radius;
 	
 	private List<Player> player;
@@ -78,6 +78,10 @@ public class AreaEvent extends QuestEvent implements UserQuestEvent {
 	@Override
 	public String getDescription() {
 		return "Head to " + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "! (" + radius + " block leeway)";
+	}
+	
+	public Location getLocation() {
+		return loc;
 	}
 
 }
