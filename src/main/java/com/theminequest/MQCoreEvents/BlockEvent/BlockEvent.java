@@ -2,12 +2,14 @@ package com.theminequest.MQCoreEvents.BlockEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
 import com.theminequest.MineQuest.API.CompleteStatus;
 import com.theminequest.MineQuest.API.Events.QuestEvent;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
+import com.theminequest.MineQuest.API.Utils.ItemUtils;
 
 public class BlockEvent extends QuestEvent {
 	
@@ -16,7 +18,7 @@ public class BlockEvent extends QuestEvent {
 	private int X;
 	private int Y;
 	private int Z;
-	private int type;
+	private Material material;
 
 	/*
 	 * [0] delay in MS
@@ -32,7 +34,7 @@ public class BlockEvent extends QuestEvent {
 		X = Integer.parseInt(details[1]);
 		Y = Integer.parseInt(details[2]);
 		Z = Integer.parseInt(details[3]);
-		type = Integer.parseInt(details[4]);
+		material = ItemUtils.getMaterial(details[4]);
 		starttime = System.currentTimeMillis();
 	}
 
@@ -50,9 +52,11 @@ public class BlockEvent extends QuestEvent {
 		World w = Bukkit.getWorld(worldname);
 		Location l = new Location(w,X,Y,Z);
 		Block b = l.getBlock();
-		boolean status = b.setTypeId(type);
-		if (status)
-			return CompleteStatus.SUCCESS;
+		if (material != null) {
+			boolean status = b.setTypeId(material.getId());
+			if (status)
+				return CompleteStatus.SUCCESS;
+		}
 		return CompleteStatus.WARNING;
 	}
 
