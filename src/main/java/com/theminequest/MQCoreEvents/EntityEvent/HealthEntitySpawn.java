@@ -8,6 +8,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.theminequest.MineQuest.API.CompleteStatus;
+import com.theminequest.MineQuest.API.Managers;
 import com.theminequest.MineQuest.API.Events.QuestEvent;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 import com.theminequest.MineQuest.API.Utils.MobUtils;
@@ -71,7 +72,7 @@ public class HealthEntitySpawn extends QuestEvent {
 		if (!setup){
 			if (System.currentTimeMillis()-start>=delay){
 				setup = true;
-				Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("MineQuest"), new Runnable() {
+				Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
 					public void run() {
 						entity = w.spawnCreature(loc, t);
 						if (health < entity.getMaxHealth())
@@ -88,7 +89,7 @@ public class HealthEntitySpawn extends QuestEvent {
 				synchronized (this) {
 					if (!scheduled) {
 						scheduled = true;
-						Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("MineQuest"), new Runnable() {
+						Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
 							public void run() {
 								if (isComplete() == null) {
 									if (!entity.isDead())

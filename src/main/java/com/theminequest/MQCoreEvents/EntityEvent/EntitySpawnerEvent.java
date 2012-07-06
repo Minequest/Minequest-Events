@@ -66,7 +66,7 @@ public class EntitySpawnerEvent extends QuestEvent {
 		if (!setup){
 			if (System.currentTimeMillis()-start>=delay){
 				setup = true;
-				Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("MineQuest"), new Runnable() {
+				Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
 					public void run() {
 						entity = w.spawnCreature(loc, t);
 					}
@@ -78,7 +78,7 @@ public class EntitySpawnerEvent extends QuestEvent {
 				synchronized (this) {
 					if (!scheduled) {
 						scheduled = true;
-						Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("MineQuest"), new Runnable() {
+						Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
 							public void run() {
 								if (isComplete() == null) {
 									entity = w.spawnCreature(loc, t);
