@@ -9,15 +9,15 @@ import org.bukkit.entity.Player;
 
 import com.theminequest.MineQuest.API.CompleteStatus;
 import com.theminequest.MineQuest.API.Managers;
+import com.theminequest.MineQuest.API.Events.DelayedQuestEvent;
 import com.theminequest.MineQuest.API.Events.UserQuestEvent;
-import com.theminequest.MineQuest.API.Events.QuestEvent;
 import com.theminequest.MineQuest.API.Group.Group;
 import com.theminequest.MineQuest.API.Quest.Quest;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 
-public class AreaEvent extends QuestEvent implements UserQuestEvent {
+public class AreaEvent extends DelayedQuestEvent implements UserQuestEvent {
 	
-	//private long delay;
+	private long delay;
 	private int taskid;
 	private Location loc;
 	protected double radius;
@@ -28,7 +28,7 @@ public class AreaEvent extends QuestEvent implements UserQuestEvent {
 	/*
 	 * (non-Javadoc)
 	 * @see com.theminequest.MineQuest.Events.QEvent#parseDetails(java.lang.String[])
-	 * [0] DELAY in MS (depreciated)
+	 * [0] DELAY in MS
 	 * [1] Task #
 	 * [2] X
 	 * [3] Y
@@ -37,7 +37,7 @@ public class AreaEvent extends QuestEvent implements UserQuestEvent {
 	 */
 	@Override
 	public void parseDetails(String[] details) {
-		//delay = Long.parseLong(details[0]);
+		delay = Long.parseLong(details[0]);
 		taskid = Integer.parseInt(details[1]);
 		int X = Integer.parseInt(details[2]);
 		int Y = Integer.parseInt(details[3]);
@@ -47,21 +47,6 @@ public class AreaEvent extends QuestEvent implements UserQuestEvent {
 		loc = new Location(Bukkit.getWorld((String) q.getDetails().getProperty(QuestDetails.QUEST_WORLD)),X,Y,Z);
 		group = Managers.getQuestGroupManager().get(getQuest());
 		player = new ArrayList<Player>();
-	}
-
-	@Override
-	public boolean conditions() {
-		List<Player> py = group.getMembers();
-		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
-		for (Player p : py){
-			if (!p.getWorld().getName().equals(worldname))
-				continue;
-			if (p.getLocation().distance(loc)<=radius)
-				player.add(p);
-		}
-		if (player.size()>=group.getMembers().size())
-			return true;
-		return false;
 	}
 
 	@Override
@@ -82,6 +67,26 @@ public class AreaEvent extends QuestEvent implements UserQuestEvent {
 	
 	public Location getLocation() {
 		return loc;
+	}
+
+	@Override
+	public long getDelay() {
+		return delay;
+	}
+
+	@Override
+	public boolean delayedConditions() {
+		List<Player> py = group.getMembers();
+		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
+		for (Player p : py){
+			if (!p.getWorld().getName().equals(worldname))
+				continue;
+			if (p.getLocation().distance(loc)<=radius)
+				player.add(p);
+		}
+		if (player.size()>=group.getMembers().size())
+			return true;
+		return false;
 	}
 
 }
