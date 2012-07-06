@@ -104,6 +104,8 @@ public class EntitySpawnerEvent extends QuestEvent {
 	 */
 	@Override
 	public boolean entityDeathCondition(EntityDeathEvent e) {
+		if (entity == null)
+			return false;
 		if (entity.equals(e.getEntity())){
 			if (isComplete()==null)
 				entity = w.spawnCreature(loc, t);
