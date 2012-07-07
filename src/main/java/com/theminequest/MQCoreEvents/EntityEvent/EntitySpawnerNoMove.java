@@ -101,6 +101,8 @@ public class EntitySpawnerNoMove extends QuestEvent {
 	 */
 	@Override
 	public boolean entityDeathCondition(EntityDeathEvent e) {
+		if (entity == null)
+			return false;
 		if (entity.equals(e.getEntity())) {
 			// if people outside the party kill mob, give no xp or items to prevent exploiting
 			LivingEntity el = (LivingEntity) e.getEntity();
