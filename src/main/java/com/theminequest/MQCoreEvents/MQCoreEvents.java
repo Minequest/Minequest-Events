@@ -18,6 +18,10 @@ import com.theminequest.MQCoreEvents.EntityEvent.HealthEntitySpawn;
 import com.theminequest.MQCoreEvents.EnvEvent.ArrowEvent;
 import com.theminequest.MQCoreEvents.EnvEvent.ExplosionEvent;
 import com.theminequest.MQCoreEvents.EnvEvent.LightningEvent;
+import com.theminequest.MQCoreEvents.EnvEvent.WeatherEvent;
+import com.theminequest.MQCoreEvents.GroupEvent.DamageEvent;
+import com.theminequest.MQCoreEvents.GroupEvent.HealthEvent;
+import com.theminequest.MQCoreEvents.GroupEvent.PoisonEvent;
 import com.theminequest.MQCoreEvents.GroupEvent.TeleportEvent;
 import com.theminequest.MineQuest.API.Managers;
 import com.theminequest.MineQuest.API.Events.EventManager;
@@ -47,6 +51,7 @@ public class MQCoreEvents extends JavaPlugin {
 		e.addEvent("BlockCDEvent", BlockCDEvent.class);
 		e.addEvent("BlockDCEvent", BlockDCEvent.class);
 		e.addEvent("BlockEvent", BlockEvent.class);
+		e.addEvent("BlockInteractEvent", BlockInteractEvent.class);
 		e.addEvent("EntitySpawnerCompleteEvent", EntitySpawnerCompleteEvent.class);
 		e.addEvent("EntitySpawnerEvent", EntitySpawnerEvent.class);
 		e.addEvent("EntitySpawnNumberEvent", EntitySpawnNumberEvent.class);
@@ -55,9 +60,12 @@ public class MQCoreEvents extends JavaPlugin {
 		e.addEvent("HealthEntitySpawn", HealthEntitySpawn.class);
 		e.addEvent("ArrowEvent", ArrowEvent.class);
 		e.addEvent("ExplosionEvent", ExplosionEvent.class);
-		e.addEvent("TeleportEvent", TeleportEvent.class);
 		e.addEvent("LightningEvent", LightningEvent.class);
-		e.addEvent("BlockInteractEvent", BlockInteractEvent.class);
+		e.addEvent("WeatherEvent", WeatherEvent.class);
+		e.addEvent("DamageEvent", DamageEvent.class);
+		e.addEvent("HealthEvent", HealthEvent.class);
+		e.addEvent("PoisonEvent", PoisonEvent.class);
+		e.addEvent("TeleportEvent", TeleportEvent.class);
 	}
 
 }
