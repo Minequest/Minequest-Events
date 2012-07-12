@@ -134,7 +134,7 @@ public class HealthEntitySpawn extends QuestEvent {
 		int eventDamage = e.getDamage();
 		
 		// check no damage ticks first
-        if (eventDamage < entity.getLastDamage() && entity.getNoDamageTicks() > entity.getMaximumNoDamageTicks() / 2)
+        if (eventDamage <= entity.getLastDamage() && entity.getNoDamageTicks() > entity.getMaximumNoDamageTicks() / 2)
             return false;
 		
 		if (currentHealth > entity.getMaxHealth()) {
