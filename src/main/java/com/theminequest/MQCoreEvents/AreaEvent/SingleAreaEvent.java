@@ -18,13 +18,16 @@
  */
 package com.theminequest.MQCoreEvents.AreaEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 
 public class SingleAreaEvent extends AreaEvent {
+	private Player trigger = null;
 
 	@Override
 	public boolean delayedConditions() {
@@ -33,10 +36,23 @@ public class SingleAreaEvent extends AreaEvent {
 		for (Player p : py){
 			if (!p.getWorld().getName().equals(worldname))
 				continue;
-			if (p.getLocation().distance(getLocation())<=radius)
+			if (p.getLocation().distance(getLocation())<=radius){
+				trigger = p;
 				return true;
+			}
 		}
 		return false;
+	}
+
+	@Override
+	public List<LivingEntity> getTargets() {
+		List<LivingEntity> pls = new ArrayList<LivingEntity>();
+		
+		if (trigger != null) {
+			pls.add(trigger);
+		}
+		
+		return pls;
 	}
 
 }

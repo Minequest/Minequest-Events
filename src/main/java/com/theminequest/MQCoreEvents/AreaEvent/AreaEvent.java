@@ -23,17 +23,19 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.theminequest.MineQuest.API.CompleteStatus;
 import com.theminequest.MineQuest.API.Managers;
 import com.theminequest.MineQuest.API.Events.DelayedQuestEvent;
+import com.theminequest.MineQuest.API.Events.TargetterQuestEvent;
 import com.theminequest.MineQuest.API.Events.UserQuestEvent;
 import com.theminequest.MineQuest.API.Group.Group;
 import com.theminequest.MineQuest.API.Quest.Quest;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 
-public class AreaEvent extends DelayedQuestEvent implements UserQuestEvent {
+public class AreaEvent extends DelayedQuestEvent implements UserQuestEvent, TargetterQuestEvent {
 	
 	private long delay;
 	private int taskid;
@@ -105,6 +107,15 @@ public class AreaEvent extends DelayedQuestEvent implements UserQuestEvent {
 		if (player.size()>=group.getMembers().size())
 			return true;
 		return false;
+	}
+
+	@Override
+	public List<LivingEntity> getTargets() {
+		List<LivingEntity> pls = new ArrayList<LivingEntity>();
+		for (Player p : player) {
+			pls.add(p);
+		}
+		return pls;
 	}
 
 }
