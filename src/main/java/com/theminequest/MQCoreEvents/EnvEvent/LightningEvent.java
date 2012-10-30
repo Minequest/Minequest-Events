@@ -57,9 +57,9 @@ public class LightningEvent extends QuestEvent {
 			delay = Long.parseLong(details[0]);
 			String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
 			World w = Bukkit.getWorld(worldname);
-			double x = Double.parseDouble(details[0]);
-			double y = Double.parseDouble(details[1]);
-			double z = Double.parseDouble(details[2]);
+			double x = Double.parseDouble(details[1]);
+			double y = Double.parseDouble(details[2]);
+			double z = Double.parseDouble(details[3]);
 			loc = new Location(w,x,y,z);
 		}
 		starttime = System.currentTimeMillis();
