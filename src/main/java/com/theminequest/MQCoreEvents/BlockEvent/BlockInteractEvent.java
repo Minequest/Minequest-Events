@@ -70,7 +70,7 @@ public class BlockInteractEvent extends QuestEvent implements UserQuestEvent {
 
 	@Override
 	public boolean playerInteractCondition(PlayerInteractEvent e) {
-		if (e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_AIR))
+		if (!e.getAction().equals(Action.RIGHT_CLICK_BLOCK))
 			return false;
 		return e.getClickedBlock().getLocation().equals(loc);
 	}
