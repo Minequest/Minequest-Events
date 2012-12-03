@@ -25,14 +25,13 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 
 import com.theminequest.MineQuest.API.CompleteStatus;
-import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Events.DelayedQuestEvent;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 import com.theminequest.MineQuest.API.Utils.ItemUtils;
 
-public class BlockEvent extends QuestEvent {
+public class BlockEvent extends DelayedQuestEvent {
 	
-	private long timetowait;
-	private long starttime;
+	private long delay;
 	private int X;
 	private int Y;
 	private int Z;
@@ -47,21 +46,16 @@ public class BlockEvent extends QuestEvent {
 	 */
 	@Override
 	public void parseDetails(String[] details) {
-		// TODO Auto-generated method stub
-		timetowait = Long.parseLong(details[0]);
+		delay = Long.parseLong(details[0]);
 		X = Integer.parseInt(details[1]);
 		Y = Integer.parseInt(details[2]);
 		Z = Integer.parseInt(details[3]);
 		material = ItemUtils.getMaterial(details[4]);
-		starttime = System.currentTimeMillis();
 	}
 
 	@Override
-	public boolean conditions() {
-		long curtime = System.currentTimeMillis();
-		if (curtime-starttime>=timetowait)
-			return true;
-		return false;
+	public boolean delayedConditions() {
+		return true;
 	}
 
 	@Override
@@ -79,8 +73,12 @@ public class BlockEvent extends QuestEvent {
 	}
 
 	@Override
+	public long getDelay() {
+		return delay;
+	}
+
+	@Override
 	public Integer switchTask() {
 		return null;
 	}
-
 }
