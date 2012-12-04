@@ -92,7 +92,7 @@ public class EntitySpawnerEvent extends QuestEvent {
 				setup = true;
 				Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
 					public void run() {
-						entity = w.spawnCreature(loc, t);
+						entity = (LivingEntity) w.spawnEntity(loc, t);
 					}
 				});
 				return false;
@@ -105,7 +105,7 @@ public class EntitySpawnerEvent extends QuestEvent {
 						Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
 							public void run() {
 								if (isComplete() == null) {
-									entity = w.spawnCreature(loc, t);
+									entity = (LivingEntity) w.spawnEntity(loc, t);
 								}
 								scheduled = false;
 							}
@@ -132,7 +132,7 @@ public class EntitySpawnerEvent extends QuestEvent {
 			return false;
 		if (entity.equals(e.getEntity())){
 			if (isComplete()==null)
-				entity = w.spawnCreature(loc, t);
+				entity = (LivingEntity) w.spawnEntity(loc, t);
 			
 			boolean inParty = false;
 			
