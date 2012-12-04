@@ -45,7 +45,8 @@ public class HealthEntitySpawn extends DelayedQuestEvent {
 	private int health;
 	private boolean stay;
 	
-	private volatile Boolean scheduled;
+	private volatile boolean scheduled;
+	private final Object scheduledLock = new Object();
 	
 	private int currentHealth;
 
@@ -83,7 +84,7 @@ public class HealthEntitySpawn extends DelayedQuestEvent {
 	@Override
 	public boolean delayedConditions() {
 		if (!scheduled && (entity == null || stay)) {
-			synchronized (scheduled) {
+			synchronized (scheduledLock) {
 				if (!scheduled) {
 					scheduled = true;
 					Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {

@@ -49,7 +49,8 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 	
 	private LivingEntity entity;
 	
-	private volatile Boolean scheduled;
+	private volatile boolean scheduled;
+	private final Object scheduledLock = new Object();
 
 	/*
 	 * (non-Javadoc)
@@ -79,7 +80,7 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 	@Override
 	public boolean delayedConditions() {
 		if (!scheduled && (entity == null || entity.isDead() || !entity.isValid())) {
-			synchronized (scheduled) {
+			synchronized (scheduledLock) {
 				if (!scheduled) {
 					scheduled = true;
 					Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
