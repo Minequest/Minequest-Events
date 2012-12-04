@@ -24,13 +24,12 @@ import org.bukkit.World;
 import org.bukkit.util.Vector;
 
 import com.theminequest.MineQuest.API.CompleteStatus;
-import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Events.DelayedQuestEvent;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 
-public class ArrowEvent extends QuestEvent {
+public class ArrowEvent extends DelayedQuestEvent {
 	
 	private long delay;
-	private long starttime;
 	
 	private Location loc;
 	private Vector dest;
@@ -60,14 +59,11 @@ public class ArrowEvent extends QuestEvent {
 		double dy = Double.parseDouble(details[5]);
 		double dz = Double.parseDouble(details[6]);
 		dest = new Vector(dx,dy,dz);
-		starttime = System.currentTimeMillis();
 	}
 
 	@Override
-	public boolean conditions() {
-		if (System.currentTimeMillis()-starttime>=delay)
-			return true;
-		return false;
+	public boolean delayedConditions() {
+		return true;
 	}
 
 	@Override
@@ -81,4 +77,8 @@ public class ArrowEvent extends QuestEvent {
 		return null;
 	}
 
+	@Override
+	public long getDelay() {
+		return delay;
+	}
 }

@@ -27,14 +27,13 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.theminequest.MineQuest.API.CompleteStatus;
 import com.theminequest.MineQuest.API.Managers;
-import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Events.DelayedQuestEvent;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 import com.theminequest.MineQuest.API.Utils.MobUtils;
 
-public class HealthEntitySpawn extends QuestEvent {
+public class HealthEntitySpawn extends DelayedQuestEvent {
 
 	private long delay;
-	private long start;
 	
 	private int taskid;
 	
@@ -46,9 +45,7 @@ public class HealthEntitySpawn extends QuestEvent {
 	private int health;
 	private boolean stay;
 	
-	private boolean setup;
-	
-	private volatile boolean scheduled;
+	private volatile Boolean scheduled;
 	
 	private int currentHealth;
 
@@ -78,45 +75,33 @@ public class HealthEntitySpawn extends QuestEvent {
 		t = MobUtils.getEntityType(details[5]);
 		health = Integer.parseInt(details[6]);
 		stay = ("t".equalsIgnoreCase(details[7]));
-		setup = false;
 		entity = null;
-		start = System.currentTimeMillis();
 		scheduled = false;
 		currentHealth = health;
 	}
 	
 	@Override
-	public boolean conditions() {
-		if (!setup){
-			if (System.currentTimeMillis()-start>=delay){
-				setup = true;
-				Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
-					public void run() {
-						entity = w.spawnCreature(loc, t);
-						if (health < entity.getMaxHealth())
-							entity.setHealth(health);
-					}
-				});
-			}
-		}
-		if (entity != null) {
-			if (entity.isDead())
-				return true;
-			
-			if (stay) {
-				synchronized (this) {
-					if (!scheduled) {
-						scheduled = true;
-						Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
-							public void run() {
-								if (isComplete() == null) {
-									if (!entity.isDead())
-										entity.teleport(loc);
+	public boolean delayedConditions() {
+		if (!scheduled && (entity == null || stay)) {
+			synchronized (scheduled) {
+				if (!scheduled) {
+					scheduled = true;
+					Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
+						public void run() {
+							if (isComplete() == null) {
+								if (entity == null) {
+									entity = (LivingEntity) w.spawnEntity(loc, t);
+
+									if (health < entity.getMaxHealth())
+										entity.setHealth(health);
+									
+								} else if (stay && !entity.isDead() && entity.isValid()) {
+									entity.teleport(loc);
 								}
-								scheduled = false;
 							}
-						});
-					}
+							scheduled = false;
+						}
+					});
 				}
 			}
 		}
@@ -156,4 +141,8 @@ public class HealthEntitySpawn extends QuestEvent {
 		return taskid;
 	}
 
+	@Override
+	public long getDelay() {
+		return delay;
+	}
 }

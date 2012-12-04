@@ -27,15 +27,13 @@ import org.bukkit.entity.LivingEntity;
 
 import com.theminequest.MineQuest.API.CompleteStatus;
 import com.theminequest.MineQuest.API.Managers;
-import com.theminequest.MineQuest.API.Events.QuestEvent;
-import com.theminequest.MineQuest.API.Quest.Quest;
+import com.theminequest.MineQuest.API.Events.DelayedQuestEvent;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 import com.theminequest.MineQuest.API.Quest.QuestUtils;
 
-public class LightningEvent extends QuestEvent {
+public class LightningEvent extends DelayedQuestEvent {
 	
 	private long delay;
-	private long starttime;
 	
 	private boolean targeted;
 	private int targetid;
@@ -62,13 +60,10 @@ public class LightningEvent extends QuestEvent {
 			double z = Double.parseDouble(details[3]);
 			loc = new Location(w,x,y,z);
 		}
-		starttime = System.currentTimeMillis();
 	}
 
 	@Override
-	public boolean conditions() {
-		if (starttime+delay>System.currentTimeMillis())
-			return false;
+	public boolean delayedConditions() {
 		return true;
 	}
 
@@ -90,6 +85,11 @@ public class LightningEvent extends QuestEvent {
 	@Override
 	public Integer switchTask() {
 		return null;
+	}
+
+	@Override
+	public long getDelay() {
+		return delay;
 	}
 
 }

@@ -33,15 +33,14 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 import com.theminequest.MineQuest.API.CompleteStatus;
 import com.theminequest.MineQuest.API.Managers;
-import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Events.DelayedQuestEvent;
 import com.theminequest.MineQuest.API.Group.QuestGroup;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 import com.theminequest.MineQuest.API.Utils.MobUtils;
 
-public class EntitySpawnerNoMove extends QuestEvent {
+public class EntitySpawnerNoMove extends DelayedQuestEvent {
 
 	private long delay;
-	private long start;
 	
 	private World w;
 	private Location loc;
@@ -49,9 +48,7 @@ public class EntitySpawnerNoMove extends QuestEvent {
 	
 	private LivingEntity entity;
 	
-	private boolean setup;
-	
-	private volatile boolean scheduled;
+	private volatile Boolean scheduled;
 
 	/*
 	 * (non-Javadoc)
@@ -73,35 +70,21 @@ public class EntitySpawnerNoMove extends QuestEvent {
 		double z = Double.parseDouble(details[3]);
 		loc = new Location(w,x,y,z);
 		t = MobUtils.getEntityType(details[4]);
-		setup = false;
 		entity = null;
-		start = System.currentTimeMillis();
 		scheduled = false;
 	}
 
 	@Override
-	public boolean conditions() {
-		if (!setup){
-			if (System.currentTimeMillis()-start>=delay){
-				setup = true;
-				Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
-					public void run() {
-						entity = w.spawnCreature(loc, t);
-					}
-				});
-				return false;
-			}
-		}
-		
-		if (entity != null) {
-			synchronized (this) {
+	public boolean delayedConditions() {
+		if (!scheduled) {
+			synchronized (scheduled) {
 				if (!scheduled) {
 					scheduled = true;
 					Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
 						public void run() {
 							if (isComplete() == null) {
-								if (entity.isDead())
-									entity = w.spawnCreature(loc, t);
+								if (entity == null || entity.isDead() || !entity.isValid())
+									entity = (LivingEntity) w.spawnEntity(loc, t);
 								else
 									entity.teleport(loc);
 							}
@@ -174,5 +157,10 @@ public class EntitySpawnerNoMove extends QuestEvent {
 	@Override
 	public Integer switchTask() {
 		return null;
+	}
+
+	@Override
+	public long getDelay() {
+		return delay;
 	}
 }

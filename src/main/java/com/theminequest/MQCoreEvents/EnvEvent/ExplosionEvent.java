@@ -27,19 +27,18 @@ import org.bukkit.entity.LivingEntity;
 
 import com.theminequest.MineQuest.API.CompleteStatus;
 import com.theminequest.MineQuest.API.Managers;
-import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Events.DelayedQuestEvent;
 import com.theminequest.MineQuest.API.Quest.Quest;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 import com.theminequest.MineQuest.API.Quest.QuestUtils;
 import com.theminequest.MineQuest.API.Target.TargetDetails;
 import com.theminequest.MineQuest.API.Utils.NumberUtils;
 
-public class ExplosionEvent extends QuestEvent {
+public class ExplosionEvent extends DelayedQuestEvent {
 	
 	private boolean targeted;
 	
 	private long delay;
-	private long starttime;
 	
 	private Location loc;
 	private TargetDetails t;
@@ -80,14 +79,11 @@ public class ExplosionEvent extends QuestEvent {
 			else
 				dmg = f;
 		}
-		starttime = System.currentTimeMillis();
 	}
 
 	@Override
-	public boolean conditions() {
-		if (System.currentTimeMillis()-starttime>=delay)
-			return true;
-		return false;
+	public boolean delayedConditions() {
+		return true;
 	}
 
 	@Override
@@ -115,6 +111,11 @@ public class ExplosionEvent extends QuestEvent {
 	@Override
 	public Integer switchTask() {
 		return null;
+	}
+
+	@Override
+	public long getDelay() {
+		return delay;
 	}
 
 }

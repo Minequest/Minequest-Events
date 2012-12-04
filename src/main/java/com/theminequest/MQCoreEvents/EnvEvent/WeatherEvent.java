@@ -22,13 +22,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import com.theminequest.MineQuest.API.CompleteStatus;
-import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Events.DelayedQuestEvent;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 
-public class WeatherEvent extends QuestEvent {
+public class WeatherEvent extends DelayedQuestEvent {
 	
 	private long delay;
-	private long starttime;
 	
 	private boolean rain;
 	private int duration;
@@ -39,13 +38,10 @@ public class WeatherEvent extends QuestEvent {
 		delay = Long.parseLong(details[0]);
 		rain = Boolean.parseBoolean(details[1]);
 		duration = Integer.parseInt(details[2]);
-		starttime = System.currentTimeMillis();
 	}
 
 	@Override
-	public boolean conditions() {
-		if (starttime+delay>System.currentTimeMillis())
-			return false;
+	public boolean delayedConditions() {
 		return true;
 	}
 
@@ -61,6 +57,11 @@ public class WeatherEvent extends QuestEvent {
 	@Override
 	public Integer switchTask() {
 		return null;
+	}
+
+	@Override
+	public long getDelay() {
+		return delay;
 	}
 
 }

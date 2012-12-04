@@ -33,15 +33,14 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 import com.theminequest.MineQuest.API.CompleteStatus;
 import com.theminequest.MineQuest.API.Managers;
-import com.theminequest.MineQuest.API.Events.QuestEvent;
+import com.theminequest.MineQuest.API.Events.DelayedQuestEvent;
 import com.theminequest.MineQuest.API.Group.QuestGroup;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 import com.theminequest.MineQuest.API.Utils.MobUtils;
 
-public class EntitySpawnerEvent extends QuestEvent {
+public class EntitySpawnerEvent extends DelayedQuestEvent {
 	
 	private long delay;
-	private long start;
 	
 	private World w;
 	private Location loc;
@@ -50,9 +49,7 @@ public class EntitySpawnerEvent extends QuestEvent {
 	
 	private LivingEntity entity;
 	
-	private boolean setup;
-	
-	private volatile boolean scheduled;
+	private volatile Boolean scheduled;
 
 	/*
 	 * (non-Javadoc)
@@ -79,38 +76,24 @@ public class EntitySpawnerEvent extends QuestEvent {
 		} else {
 			dropItems = true;
 		}
-		setup = false;
 		entity = null;
-		start = System.currentTimeMillis();
 		scheduled = false;
 	}
 
 	@Override
-	public boolean conditions() {
-		if (!setup){
-			if (System.currentTimeMillis()-start>=delay){
-				setup = true;
-				Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
-					public void run() {
-						entity = (LivingEntity) w.spawnEntity(loc, t);
-					}
-				});
-				return false;
-			}
-			
-			if (entity != null && entity.isDead()) {
-				synchronized (this) {
-					if (!scheduled) {
-						scheduled = true;
-						Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
-							public void run() {
-								if (isComplete() == null) {
-									entity = (LivingEntity) w.spawnEntity(loc, t);
-								}
-								scheduled = false;
+	public boolean delayedConditions() {
+		if (!scheduled && (entity == null || entity.isDead() || !entity.isValid())) {
+			synchronized (scheduled) {
+				if (!scheduled) {
+					scheduled = true;
+					Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
+						public void run() {
+							if (isComplete() == null) {
+								entity = (LivingEntity) w.spawnEntity(loc, t);
 							}
-						});
-					}
+							scheduled = false;
+						}
+					});
 				}
 			}
 		}
@@ -184,6 +167,11 @@ public class EntitySpawnerEvent extends QuestEvent {
 	@Override
 	public Integer switchTask() {
 		return null;
+	}
+
+	@Override
+	public long getDelay() {
+		return delay;
 	}
 
 }
