@@ -71,11 +71,7 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 		double z = Double.parseDouble(details[3]);
 		loc = new Location(w,x,y,z);
 		t = MobUtils.getEntityType(details[4]);
-		if (details[5].toLowerCase().startsWith("f")) {
-			dropItems = false;
-		} else {
-			dropItems = true;
-		}
+		dropItems = (!details[5].toLowerCase().startsWith("f"));
 		entity = null;
 		scheduled = false;
 	}
@@ -113,10 +109,7 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 	public boolean entityDeathCondition(EntityDeathEvent e) {
 		if (entity == null)
 			return false;
-		if (entity.equals(e.getEntity())){
-			if (isComplete()==null)
-				entity = (LivingEntity) w.spawnEntity(loc, t);
-			
+		if (entity.equals(e.getEntity())) {
 			boolean inParty = false;
 			
 			// if people outside the party kill mob, give no xp or items to prevent exploiting
