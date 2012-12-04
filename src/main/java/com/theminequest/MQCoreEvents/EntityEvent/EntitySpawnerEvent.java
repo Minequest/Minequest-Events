@@ -46,6 +46,7 @@ public class EntitySpawnerEvent extends QuestEvent {
 	private World w;
 	private Location loc;
 	private EntityType t;
+	private boolean dropItems;
 	
 	private LivingEntity entity;
 	
@@ -61,7 +62,7 @@ public class EntitySpawnerEvent extends QuestEvent {
 	 * [2] Y
 	 * [3] Z
 	 * [4] Mob Type
-	 * [5] isSuper // deprecated and ignored;
+	 * [5] dropItems;
 	 */
 	@Override
 	public void parseDetails(String[] details) {
@@ -73,6 +74,11 @@ public class EntitySpawnerEvent extends QuestEvent {
 		double z = Double.parseDouble(details[3]);
 		loc = new Location(w,x,y,z);
 		t = MobUtils.getEntityType(details[4]);
+		if (details[5].toLowerCase().startsWith("f")) {
+			dropItems = false;
+		} else {
+			dropItems = true;
+		}
 		setup = false;
 		entity = null;
 		start = System.currentTimeMillis();
@@ -128,6 +134,7 @@ public class EntitySpawnerEvent extends QuestEvent {
 			if (isComplete()==null)
 				entity = w.spawnCreature(loc, t);
 			
+			boolean inParty = false;
 			
 			// if people outside the party kill mob, give no xp or items to prevent exploiting
 			LivingEntity el = (LivingEntity) e.getEntity();
@@ -152,13 +159,15 @@ public class EntitySpawnerEvent extends QuestEvent {
 					QuestGroup g = Managers.getQuestGroupManager().get(getQuest());
 					List<Player> team = g.getMembers();
 					if (team.contains(p))
-						return false;
+						inParty = true;
 				}
 			}
 			
 			// outside of party gives no drops
-			e.setDroppedExp(0);
-			e.getDrops().clear();
+			if (!dropItems || !inParty) {
+				e.setDroppedExp(0);
+				e.getDrops().clear();
+			}
 		}
 		return false;
 	}
