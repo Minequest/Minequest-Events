@@ -6,7 +6,7 @@
 	<artifactId>MineQuest-Events</artifactId>
 	<packaging>jar</packaging>
 	<version>dev-SNAPSHOT</version>
-	<name>MineQuest-NPC</name>
+	<name>MineQuest-Events</name>
 	<url>http://www.theminequest.com/</url>
 
 	<properties>
@@ -35,13 +35,6 @@
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
 			<version>LATEST</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.getspout</groupId>
-			<artifactId>spoutpluginapi</artifactId>
-			<version>dev-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -142,10 +135,6 @@
 	</build>
 
 	<repositories>
-		<repository>
-			<id>alta189-repo</id>
-			<url>http://repo.alta189.com/</url>
-		</repository>
 		<repository>
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public/</url>
