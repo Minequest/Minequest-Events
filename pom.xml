@@ -14,22 +14,6 @@
 		<build.number>unofficialDev</build.number>
 	</properties>
 
-	<distributionManagement>
-		<!-- Publish versioned releases here -->
-		<repository>
-			<id>nexus</id>
-			<name>nexus.alta189</name>
-			<url>http://nexus.alta189.com/content/repositories/releases</url>
-		</repository>
-
-		<!-- Publish snapshots here -->
-		<snapshotRepository>
-			<id>nexus</id>
-			<name>nexus.alta189</name>
-			<url>http://nexus.alta189.com/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.bukkit</groupId>
@@ -142,6 +126,10 @@
 		<repository>
 			<id>spout-repo</id>
 			<url>http://repo.spout.org/</url>
+		</repository>
+		<repository>
+			<id>jci-repo</id>
+			<url>http://jci.lincomlinux.org/plugin/repository/everything/</url>
 		</repository>
 	</repositories>
 
