@@ -72,7 +72,6 @@ public class HealthEntitySpawn extends DelayedQuestEvent {
 		double y = Double.parseDouble(details[3]);
 		double z = Double.parseDouble(details[4]);
 		loc = new Location(w,x,y,z);
-		System.out.println(details[5]);
 		t = MobUtils.getEntityType(details[5]);
 		health = Integer.parseInt(details[6]);
 		stay = ("t".equalsIgnoreCase(details[7]));
