@@ -72,7 +72,10 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 		double z = Double.parseDouble(details[3]);
 		loc = new Location(w,x,y,z);
 		t = MobUtils.getEntityType(details[4]);
-		dropItems = (!details[5].toLowerCase().startsWith("f"));
+		if (details.length >= 6)
+			dropItems = (!details[5].toLowerCase().startsWith("f"));
+		else
+			dropItems = true;
 		entity = null;
 		scheduled = false;
 	}
