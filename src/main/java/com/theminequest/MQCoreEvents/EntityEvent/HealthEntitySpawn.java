@@ -28,10 +28,11 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import com.theminequest.MineQuest.API.CompleteStatus;
 import com.theminequest.MineQuest.API.Managers;
 import com.theminequest.MineQuest.API.Events.DelayedQuestEvent;
+import com.theminequest.MineQuest.API.Events.UserQuestEvent;
 import com.theminequest.MineQuest.API.Quest.QuestDetails;
 import com.theminequest.MineQuest.API.Utils.MobUtils;
 
-public class HealthEntitySpawn extends DelayedQuestEvent {
+public class HealthEntitySpawn extends DelayedQuestEvent implements UserQuestEvent {
 
 	private long delay;
 	
@@ -149,5 +150,14 @@ public class HealthEntitySpawn extends DelayedQuestEvent {
 	@Override
 	public long getDelay() {
 		return delay;
+	}
+
+	@Override
+	public String getDescription() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Kill Boss ");
+		builder.append(t.getName());
+		builder.append("!");
+		return builder.toString();
 	}
 }
