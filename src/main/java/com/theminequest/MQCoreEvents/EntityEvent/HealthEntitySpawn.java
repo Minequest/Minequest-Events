@@ -105,6 +105,11 @@ public class HealthEntitySpawn extends DelayedQuestEvent {
 				}
 			}
 		}
+		if (entity != null) {
+			if (entity.isDead()) {
+				return true;
+			}
+		}
 		return false;
 	}
 	
