@@ -51,6 +51,8 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 	
 	private volatile boolean scheduled;
 	private final Object scheduledLock = new Object();
+	
+	protected boolean noMove = false;
 
 	/*
 	 * (non-Javadoc)
@@ -82,14 +84,17 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 
 	@Override
 	public boolean delayedConditions() {
-		if (!scheduled && (entity == null || entity.isDead() || !entity.isValid())) {
+		if (!scheduled && (noMove || entity == null || entity.isDead() || !entity.isValid())) {
 			synchronized (scheduledLock) {
 				if (!scheduled) {
 					scheduled = true;
 					Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
 						public void run() {
 							if (isComplete() == null) {
-								entity = (LivingEntity) w.spawnEntity(loc, t);
+								if (entity == null || entity.isDead() || !entity.isValid())
+									entity = (LivingEntity) w.spawnEntity(loc, t);
+								else if (noMove)
+									entity.teleport(loc);
 							}
 							scheduled = false;
 						}
@@ -102,8 +107,7 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 
 	@Override
 	public CompleteStatus action() {
-		// It should NEVER get here.
-		return CompleteStatus.FAILURE;
+		return CompleteStatus.SUCCESS;
 	}
 
 	/* (non-Javadoc)
@@ -148,6 +152,8 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 				e.setDroppedExp(0);
 				e.getDrops().clear();
 			}
+			
+			return inParty;
 		}
 		return false;
 	}
