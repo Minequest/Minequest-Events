@@ -122,7 +122,7 @@ public class HealthEntitySpawn extends DelayedQuestEvent implements UserQuestEve
 		if (!e.getEntity().equals(entity))
 			return false;
 		
-		int eventDamage = e.getDamage();
+		double eventDamage = e.getDamage();
 		
 		// check no damage ticks first
         if (eventDamage <= entity.getLastDamage() && entity.getNoDamageTicks() > entity.getMaximumNoDamageTicks() / 2)
