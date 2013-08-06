@@ -1,5 +1,5 @@
 name: MineQuest-Events
-main: com.theminequest.MQCoreEvents.MQCoreEvents
+main: com.theminequest.events.MQCoreEvents
 version: ${build.number}
 
 author: JMonk

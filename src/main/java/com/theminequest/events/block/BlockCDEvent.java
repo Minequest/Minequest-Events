@@ -1,30 +1,12 @@
-/*
- * This file is part of MineQuest-NPC, Additional Events for MineQuest.
- * MineQuest-NPC is licensed under GNU General Public License v3.
- * Copyright (C) 2012 The MineQuest Team
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package com.theminequest.MQCoreEvents.BlockEvent;
+package com.theminequest.events.block;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import com.theminequest.MineQuest.API.CompleteStatus;
-import com.theminequest.MineQuest.API.Events.QuestEvent;
-import com.theminequest.MineQuest.API.Quest.QuestDetails;
+import com.theminequest.api.CompleteStatus;
+import com.theminequest.api.quest.QuestDetails;
+import com.theminequest.api.quest.event.QuestEvent;
 
 public class BlockCDEvent extends QuestEvent {
 
@@ -47,7 +29,7 @@ public class BlockCDEvent extends QuestEvent {
 	 * [5]: Type ID 
 	 */
 	@Override
-	public void parseDetails(String[] details) {
+	public void setupArguments(String[] details) {
 		firstdelay = Long.parseLong(details[0]);
 		seconddelay = Long.parseLong(details[1]);
 		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
@@ -83,7 +65,7 @@ public class BlockCDEvent extends QuestEvent {
 		if (result)
 			return CompleteStatus.SUCCESS;
 		else
-			return CompleteStatus.FAILURE;
+			return CompleteStatus.FAIL;
 	}
 
 	@Override

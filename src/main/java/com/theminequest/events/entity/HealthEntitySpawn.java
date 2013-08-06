@@ -1,38 +1,24 @@
-/*
- * This file is part of MineQuest-NPC, Additional Events for MineQuest.
- * MineQuest-NPC is licensed under GNU General Public License v3.
- * Copyright (C) 2012 The MineQuest Team
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package com.theminequest.MQCoreEvents.EntityEvent;
+package com.theminequest.events.entity;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.plugin.Plugin;
 
-import com.theminequest.MineQuest.API.CompleteStatus;
-import com.theminequest.MineQuest.API.Managers;
-import com.theminequest.MineQuest.API.Events.DelayedQuestEvent;
-import com.theminequest.MineQuest.API.Events.UserQuestEvent;
-import com.theminequest.MineQuest.API.Quest.QuestDetails;
-import com.theminequest.MineQuest.API.Utils.MobUtils;
+import com.theminequest.api.CompleteStatus;
+import com.theminequest.api.Managers;
+import com.theminequest.api.quest.QuestDetails;
+import com.theminequest.api.quest.event.DelayedQuestEvent;
+import com.theminequest.api.quest.event.UserQuestEvent;
+import com.theminequest.bukkit.util.MobUtils;
 
-public class HealthEntitySpawn extends DelayedQuestEvent implements UserQuestEvent {
+public class HealthEntitySpawn extends DelayedQuestEvent implements UserQuestEvent, Listener {
 
 	private long delay;
 	
@@ -64,7 +50,7 @@ public class HealthEntitySpawn extends DelayedQuestEvent implements UserQuestEve
 	 * [7] Stay Put?
 	 */
 	@Override
-	public void parseDetails(String[] details) {
+	public void setupArguments(String[] details) {
 		delay = Long.parseLong(details[0]);
 		taskid = Integer.parseInt(details[1]);
 		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
@@ -87,7 +73,7 @@ public class HealthEntitySpawn extends DelayedQuestEvent implements UserQuestEve
 			synchronized (scheduledLock) {
 				if (!scheduled) {
 					scheduled = true;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
+					Managers.getPlatform().scheduleSyncTask(new Runnable() {
 						public void run() {
 							if (isComplete() == null) {
 								if (entity == null) {
@@ -115,18 +101,23 @@ public class HealthEntitySpawn extends DelayedQuestEvent implements UserQuestEve
 	}
 	
 	@Override
-	public boolean entityDamageCondition(EntityDamageEvent e){
+	public void setUpEvent() {
+		Bukkit.getPluginManager().registerEvents(this, (Plugin) Managers.getPlatform().getPlatformObject());
+	}
+
+	@EventHandler
+	public void entityDamageCondition(EntityDamageEvent e){
 		if (entity == null)
-			return false;
+			return;
 		
 		if (!e.getEntity().equals(entity))
-			return false;
+			return;
 		
 		double eventDamage = e.getDamage();
 		
 		// check no damage ticks first
         if (eventDamage <= entity.getLastDamage() && entity.getNoDamageTicks() > entity.getMaximumNoDamageTicks() / 2)
-            return false;
+            return;
 		
 		if (currentHealth > entity.getMaxHealth()) {
 			entity.setHealth(entity.getMaxHealth());
@@ -134,7 +125,11 @@ public class HealthEntitySpawn extends DelayedQuestEvent implements UserQuestEve
 			entity.setHealth(currentHealth);
 		
 		currentHealth -= eventDamage;
-		return false;
+	}
+
+	@Override
+	public void cleanUpEvent() {
+		HandlerList.unregisterAll(this);
 	}
 
 	@Override

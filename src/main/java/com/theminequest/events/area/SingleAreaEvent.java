@@ -16,23 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.theminequest.MQCoreEvents.EntityEvent;
+package com.theminequest.events.area;
 
-public class EntitySpawnerNoMove extends EntitySpawnerEvent {
+import java.util.ArrayList;
+import java.util.List;
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.theminequest.MineQuest.Events.QEvent#parseDetails(java.lang.String[])
-	 * [0] Delay in MS
-	 * [1] X
-	 * [2] Y
-	 * [3] Z
-	 * [4] Mob Type
-	 * [5] dropItems;
-	 */
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+
+import com.theminequest.api.platform.MQPlayer;
+import com.theminequest.api.quest.QuestDetails;
+
+public class SingleAreaEvent extends AreaEvent {
+	private MQPlayer trigger = null;
+
 	@Override
-	public void parseDetails(String[] details) {
-		noMove = true;
-		super.parseDetails(details);
+	public boolean delayedConditions() {
+		List<MQPlayer> py = group.getMembers();
+		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
+		for (MQPlayer p : py){
+			if (!p.getLocation().getWorld().equals(worldname))
+				continue;
+			if (p.getLocation().distance(getLocation())<=radius){
+				trigger = p;
+				return true;
+			}
+		}
+		return false;
 	}
+
 }

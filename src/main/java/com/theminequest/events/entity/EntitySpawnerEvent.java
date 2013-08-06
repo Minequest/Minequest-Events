@@ -1,22 +1,4 @@
-/*
- * This file is part of MineQuest-NPC, Additional Events for MineQuest.
- * MineQuest-NPC is licensed under GNU General Public License v3.
- * Copyright (C) 2012 The MineQuest Team
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package com.theminequest.MQCoreEvents.EntityEvent;
+package com.theminequest.events.entity;
 
 import java.util.List;
 
@@ -28,17 +10,22 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Tameable;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.plugin.Plugin;
 
-import com.theminequest.MineQuest.API.CompleteStatus;
-import com.theminequest.MineQuest.API.Managers;
-import com.theminequest.MineQuest.API.Events.DelayedQuestEvent;
-import com.theminequest.MineQuest.API.Group.QuestGroup;
-import com.theminequest.MineQuest.API.Quest.QuestDetails;
-import com.theminequest.MineQuest.API.Utils.MobUtils;
+import com.theminequest.api.CompleteStatus;
+import com.theminequest.api.Managers;
+import com.theminequest.api.group.Group;
+import com.theminequest.api.platform.MQPlayer;
+import com.theminequest.api.quest.QuestDetails;
+import com.theminequest.api.quest.event.DelayedQuestEvent;
+import com.theminequest.bukkit.util.MobUtils;
 
-public class EntitySpawnerEvent extends DelayedQuestEvent {
+public class EntitySpawnerEvent extends DelayedQuestEvent implements Listener {
 	
 	private long delay;
 	
@@ -53,6 +40,8 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 	private final Object scheduledLock = new Object();
 	
 	protected boolean noMove = false;
+	
+	private boolean finished;
 
 	/*
 	 * (non-Javadoc)
@@ -65,7 +54,7 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 	 * [5] dropItems;
 	 */
 	@Override
-	public void parseDetails(String[] details) {
+	public void setupArguments(String[] details) {
 		delay = Long.parseLong(details[0]);
 		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
 		w = Bukkit.getWorld(worldname);
@@ -80,6 +69,8 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 			dropItems = true;
 		entity = null;
 		scheduled = false;
+		
+		finished = false;
 	}
 
 	@Override
@@ -88,7 +79,7 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 			synchronized (scheduledLock) {
 				if (!scheduled) {
 					scheduled = true;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Managers.getActivePlugin(), new Runnable() {
+					Managers.getPlatform().scheduleSyncTask(new Runnable() {
 						public void run() {
 							if (isComplete() == null) {
 								if (entity == null || entity.isDead() || !entity.isValid())
@@ -102,7 +93,7 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 				}
 			}
 		}
-		return false;
+		return finished;
 	}
 
 	@Override
@@ -110,13 +101,18 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 		return CompleteStatus.SUCCESS;
 	}
 
+	@Override
+	public void setUpEvent() {
+		Bukkit.getPluginManager().registerEvents(this, (Plugin) Managers.getPlatform().getPlatformObject());
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.theminequest.MineQuest.Events.QEvent#entityDeathCondition(org.bukkit.event.entity.EntityDeathEvent)
 	 */
-	@Override
-	public boolean entityDeathCondition(EntityDeathEvent e) {
+	@EventHandler
+	public void entityDeathCondition(EntityDeathEvent e) {
 		if (entity == null)
-			return false;
+			return;
 		if (entity.equals(e.getEntity())) {
 			boolean inParty = false;
 			
@@ -140,9 +136,9 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 				}
 				
 				if (p != null) {
-					QuestGroup g = Managers.getQuestGroupManager().get(getQuest());
-					List<Player> team = g.getMembers();
-					if (team.contains(p))
+					Group g = Managers.getGroupManager().get(getQuest());
+					List<MQPlayer> team = g.getMembers();
+					if (team.contains(Managers.getPlatform().toPlayer(p)))
 						inParty = true;
 				}
 			}
@@ -153,9 +149,8 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 				e.getDrops().clear();
 			}
 			
-			return inParty;
+			finished = inParty;
 		}
-		return false;
 	}
 
 	/* (non-Javadoc)
@@ -165,6 +160,8 @@ public class EntitySpawnerEvent extends DelayedQuestEvent {
 	public void cleanUpEvent() {
 		if (entity!=null && !entity.isDead())
 			entity.setHealth(0);
+		
+		HandlerList.unregisterAll(this);
 	}
 
 	@Override
