@@ -82,9 +82,10 @@ public class EntitySpawnerEvent extends DelayedQuestEvent implements Listener {
 					Managers.getPlatform().scheduleSyncTask(new Runnable() {
 						public void run() {
 							if (isComplete() == null) {
-								if (entity == null || entity.isDead() || !entity.isValid())
+								if (entity == null || entity.isDead() || !entity.isValid()) {
 									entity = (LivingEntity) w.spawnEntity(loc, t);
-								else if (noMove)
+									MobUtils.addlProps(entity);
+								} else if (noMove)
 									entity.teleport(loc);
 							}
 							scheduled = false;

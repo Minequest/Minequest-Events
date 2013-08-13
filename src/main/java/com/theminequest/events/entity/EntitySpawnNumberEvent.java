@@ -54,7 +54,7 @@ public class EntitySpawnNumberEvent extends DelayedQuestEvent {
 	@Override
 	public CompleteStatus action() {
 		for (int i=0; i<amount; i++)
-			loc.getWorld().spawnEntity(loc, t);
+			MobUtils.addlProps(loc.getWorld().spawnEntity(loc, t));
 		return CompleteStatus.SUCCESS;
 	}
 

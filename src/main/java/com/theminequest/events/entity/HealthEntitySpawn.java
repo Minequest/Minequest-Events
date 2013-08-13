@@ -78,6 +78,7 @@ public class HealthEntitySpawn extends DelayedQuestEvent implements UserQuestEve
 							if (isComplete() == null) {
 								if (entity == null) {
 									entity = (LivingEntity) w.spawnEntity(loc, t);
+									MobUtils.addlProps(entity);
 
 									if (health < entity.getMaxHealth())
 										entity.setHealth(health);
