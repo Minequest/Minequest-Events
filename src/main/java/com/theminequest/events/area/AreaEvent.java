@@ -7,7 +7,7 @@ import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.Managers;
 import com.theminequest.api.group.Group;
 import com.theminequest.api.platform.MQLocation;
-import com.theminequest.api.platform.MQPlayer;
+import com.theminequest.api.platform.entity.MQPlayer;
 import com.theminequest.api.quest.Quest;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.DelayedQuestEvent;
@@ -75,9 +75,8 @@ public class AreaEvent extends DelayedQuestEvent implements UserQuestEvent {
 	@Override
 	public boolean delayedConditions() {
 		List<MQPlayer> py = group.getMembers();
-		String worldname = getQuest().getDetails().getProperty(QuestDetails.QUEST_WORLD);
 		for (MQPlayer p : py){
-			if (!p.getLocation().getWorld().equals(worldname))
+			if (!p.getLocation().getWorld().equals(loc.getWorld()))
 				continue;
 			if (p.getLocation().distance(loc)<=radius)
 				player.add(p);
