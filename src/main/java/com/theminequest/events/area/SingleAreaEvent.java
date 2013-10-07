@@ -18,11 +18,7 @@
  */
 package com.theminequest.events.area;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 
 import com.theminequest.api.platform.entity.MQPlayer;
 import com.theminequest.api.quest.QuestDetails;

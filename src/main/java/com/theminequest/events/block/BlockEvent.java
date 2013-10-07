@@ -9,7 +9,6 @@ import org.bukkit.block.Block;
 import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.DelayedQuestEvent;
-
 import com.theminequest.bukkit.util.ItemUtils;
 
 public class BlockEvent extends DelayedQuestEvent {

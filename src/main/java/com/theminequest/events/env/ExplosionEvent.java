@@ -1,17 +1,11 @@
 package com.theminequest.events.env;
 
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.LivingEntity;
 
 import com.theminequest.api.CompleteStatus;
-import com.theminequest.api.Managers;
-import com.theminequest.api.quest.Quest;
 import com.theminequest.api.quest.QuestDetails;
-import com.theminequest.api.quest.QuestUtils;
 import com.theminequest.api.quest.event.DelayedQuestEvent;
 import com.theminequest.api.util.NumberUtils;
 

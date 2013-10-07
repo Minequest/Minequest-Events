@@ -8,7 +8,6 @@ import org.bukkit.entity.EntityType;
 import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.DelayedQuestEvent;
-
 import com.theminequest.bukkit.util.MobUtils;
 
 public class EntitySpawnNumberEvent extends DelayedQuestEvent {
