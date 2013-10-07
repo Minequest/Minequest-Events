@@ -3,7 +3,6 @@ package com.theminequest.events;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.theminequest.common.Common;
-import com.theminequest.common.impl.event.targeted.DamageEvent;
 import com.theminequest.common.quest.v1.V1EventManager;
 import com.theminequest.events.area.AreaEvent;
 import com.theminequest.events.area.SingleAreaEvent;
@@ -22,6 +21,7 @@ import com.theminequest.events.env.ArrowEvent;
 import com.theminequest.events.env.ExplosionEvent;
 import com.theminequest.events.env.LightningEvent;
 import com.theminequest.events.env.WeatherEvent;
+import com.theminequest.events.targeted.DamageEvent;
 import com.theminequest.events.targeted.ExplosionTargetEvent;
 import com.theminequest.events.targeted.HealthTargetEvent;
 import com.theminequest.events.targeted.LightningTargetEvent;
