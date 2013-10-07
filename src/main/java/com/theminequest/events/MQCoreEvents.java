@@ -3,6 +3,7 @@ package com.theminequest.events;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.theminequest.common.Common;
+import com.theminequest.common.impl.event.target.DamageEvent;
 import com.theminequest.common.quest.v1.V1EventManager;
 import com.theminequest.events.area.AreaEvent;
 import com.theminequest.events.area.SingleAreaEvent;
@@ -21,6 +22,11 @@ import com.theminequest.events.env.ArrowEvent;
 import com.theminequest.events.env.ExplosionEvent;
 import com.theminequest.events.env.LightningEvent;
 import com.theminequest.events.env.WeatherEvent;
+import com.theminequest.events.targeted.ExplosionTargetEvent;
+import com.theminequest.events.targeted.HealthTargetEvent;
+import com.theminequest.events.targeted.LightningTargetEvent;
+import com.theminequest.events.targeted.PoisonEvent;
+import com.theminequest.events.targeted.TeleportEvent;
 
 public class MQCoreEvents extends JavaPlugin {
 
@@ -58,10 +64,13 @@ public class MQCoreEvents extends JavaPlugin {
 		e.addEvent("ExplosionEvent", ExplosionEvent.class);
 		e.addEvent("LightningEvent", LightningEvent.class);
 		e.addEvent("WeatherEvent", WeatherEvent.class);
-//		e.addEvent("DamageEvent", DamageEvent.class);
-//		e.addEvent("HealthEvent", HealthEvent.class);
-//		e.addEvent("PoisonEvent", PoisonEvent.class);
-//		e.addEvent("TeleportEvent", TeleportEvent.class);
+		
+		e.addEvent("DamageEvent", DamageEvent.class);
+		e.addEvent("ExplosionTargetEvent", ExplosionTargetEvent.class);
+		e.addEvent("HealthTargetEvent", HealthTargetEvent.class);
+		e.addEvent("LightningTargetEvent", LightningTargetEvent.class);
+		e.addEvent("PoisonEvent", PoisonEvent.class);
+		e.addEvent("TeleportEvent", TeleportEvent.class);
 	}
 
 }
