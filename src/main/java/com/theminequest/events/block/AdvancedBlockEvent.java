@@ -9,7 +9,16 @@ import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.DelayedQuestEvent;
 import com.theminequest.bukkit.util.ItemUtils;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "Event",
+		ident = "AdvancedBlockEvent",
+		description = "Set a block at a specified location.",
+		arguments = { "Delay", "X", "Y", "Z", "Block", "Damage" },
+		typeArguments = { DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.STRING, DocArgType.INT }
+		)
 public class AdvancedBlockEvent extends DelayedQuestEvent {
 	
 	private long delay;

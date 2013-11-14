@@ -2,31 +2,44 @@ package com.theminequest.events.block;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 
 import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.QuestEvent;
+import com.theminequest.bukkit.util.ItemUtils;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "Event",
+		ident = "BlockCDEvent",
+		description = "Create a block, then destroy it.",
+		arguments = { "Initial Delay", "Delay after Creation", "X", "Y", "Z", "Type" },
+		typeArguments = { DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.STRING }
+		)
 public class BlockCDEvent extends QuestEvent {
-
+	
 	private long firstdelay;
 	private long seconddelay;
 	private Location loc;
-	private int typeid;
+	private Material typeid;
 	private long starttime;
 	private int step;
-
+	
 	/*
 	 * (non-Javadoc)
-	 * @see com.theminequest.MineQuest.Events.QEvent#parseDetails(java.lang.String[])
+	 * 
+	 * @see
+	 * com.theminequest.MineQuest.Events.QEvent#parseDetails(java.lang.String[])
 	 * Destroy, then create
 	 * [0]: first delay in MS before create
 	 * [1]: second delay is MS after create before destroy
 	 * [2]: X
 	 * [3]: Y
 	 * [4]: Z
-	 * [5]: Type ID 
+	 * [5]: Type ID
 	 */
 	@Override
 	public void setupArguments(String[] details) {
@@ -37,37 +50,34 @@ public class BlockCDEvent extends QuestEvent {
 		int x = Integer.parseInt(details[2]);
 		int y = Integer.parseInt(details[3]);
 		int z = Integer.parseInt(details[4]);
-		loc = new Location(w,x,y,z);
-		typeid = Integer.parseInt(details[5]);
+		loc = new Location(w, x, y, z);
+		typeid = ItemUtils.getMaterial(details[5]);
 		step = 0;
 		starttime = System.currentTimeMillis();
 	}
-
+	
 	@Override
 	public boolean conditions() {
-		if (step==0){
-			if (starttime+firstdelay<=System.currentTimeMillis()){
-				loc.getBlock().setTypeId(typeid);
+		if (step == 0) {
+			if (starttime + firstdelay <= System.currentTimeMillis()) {
+				loc.getBlock().setType(typeid);
 				step++;
 				starttime = System.currentTimeMillis();
 			}
 			return false;
 		}
-		if (starttime+seconddelay<=System.currentTimeMillis()){
+		if (starttime + seconddelay <= System.currentTimeMillis()) {
 			return true;
 		}
 		return false;
 	}
-
+	
 	@Override
 	public CompleteStatus action() {
-		boolean result = loc.getBlock().setTypeId(0);
-		if (result)
-			return CompleteStatus.SUCCESS;
-		else
-			return CompleteStatus.FAIL;
+		loc.getBlock().setType(Material.AIR);
+		return CompleteStatus.SUCCESS;
 	}
-
+	
 	@Override
 	public Integer switchTask() {
 		return null;

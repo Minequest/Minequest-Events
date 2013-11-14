@@ -17,7 +17,16 @@ import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.DelayedQuestEvent;
 import com.theminequest.api.quest.event.UserQuestEvent;
 import com.theminequest.bukkit.util.MobUtils;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "Event",
+		ident = "HealthEntitySpawn",
+		description = "Spawn an entity with an extraordinary amount of health, like a boss.",
+		arguments = { "Initial Delay", "Task", "X", "Y", "Z", "Entity Type", "Health", "Stay Put?" },
+		typeArguments = { DocArgType.INT, DocArgType.INT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.STRING, DocArgType.INT, DocArgType.BOOL }
+		)
 public class HealthEntitySpawn extends DelayedQuestEvent implements UserQuestEvent, Listener {
 
 	private long delay;
@@ -152,7 +161,7 @@ public class HealthEntitySpawn extends DelayedQuestEvent implements UserQuestEve
 	public String getDescription() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Kill Boss ");
-		builder.append(t.getName());
+		builder.append((entity.getCustomName() != null) ? entity.getCustomName() : t.getName());
 		builder.append("!");
 		return builder.toString();
 	}

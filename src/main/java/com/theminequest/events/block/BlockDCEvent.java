@@ -2,18 +2,29 @@ package com.theminequest.events.block;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 
 import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.QuestEvent;
+import com.theminequest.bukkit.util.ItemUtils;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "Event",
+		ident = "BlockDCEvent",
+		description = "Destroy a block, then create it.",
+		arguments = { "Initial Delay", "Delay after Destruction", "X", "Y", "Z", "Type" },
+		typeArguments = { DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.STRING }
+		)
 public class BlockDCEvent extends QuestEvent {
 
 	private long firstdelay;
 	private long seconddelay;
 	private Location loc;
-	private int typeid;
+	private Material typeid;
 	private long starttime;
 	private int step;
 
@@ -38,7 +49,7 @@ public class BlockDCEvent extends QuestEvent {
 		int y = Integer.parseInt(details[3]);
 		int z = Integer.parseInt(details[4]);
 		loc = new Location(w,x,y,z);
-		typeid = Integer.parseInt(details[5]);
+		typeid = ItemUtils.getMaterial(details[5]);
 		step = 0;
 		starttime = System.currentTimeMillis();
 	}
@@ -47,7 +58,7 @@ public class BlockDCEvent extends QuestEvent {
 	public boolean conditions() {
 		if (step==0){
 			if (starttime+firstdelay<=System.currentTimeMillis()){
-				loc.getBlock().setTypeId(0);
+				loc.getBlock().setType(Material.AIR);
 				step++;
 				starttime = System.currentTimeMillis();
 			}
@@ -61,11 +72,8 @@ public class BlockDCEvent extends QuestEvent {
 
 	@Override
 	public CompleteStatus action() {
-		boolean result = loc.getBlock().setTypeId(typeid);
-		if (result)
-			return CompleteStatus.SUCCESS;
-		else
-			return CompleteStatus.FAIL;
+		loc.getBlock().setType(typeid);
+		return CompleteStatus.SUCCESS;
 	}
 
 	@Override

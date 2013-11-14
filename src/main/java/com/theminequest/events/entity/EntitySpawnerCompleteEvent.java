@@ -7,7 +7,16 @@ import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.quest.Quest;
 import com.theminequest.api.quest.event.DelayedQuestEvent;
 import com.theminequest.api.quest.event.QuestEvent;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "Event",
+		ident = "EntitySpawnerCompleteEvent",
+		description = "Stop entities that were spawned with EntitySpawnerEvent or EntitySpawnerNoMove from spawning.",
+		arguments = { "Delay", "Next Task", "Event IDs (comma-delimited)" },
+		typeArguments = { DocArgType.INT, DocArgType.INT, DocArgType.STRING }
+		)
 public class EntitySpawnerCompleteEvent extends DelayedQuestEvent {
 	
 	private long delay;

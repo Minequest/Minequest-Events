@@ -8,7 +8,15 @@ import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.Managers;
 import com.theminequest.api.platform.entity.MQPlayer;
 import com.theminequest.api.quest.event.TargetedQuestEvent;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "TargetEvent",
+		ident = "LightningTargetEvent",
+		description = "Cause lightning to strike at the specified target.",
+		arguments = { },
+		typeArguments = { }
+		)
 public class LightningTargetEvent extends TargetedQuestEvent {
 	
 	/*

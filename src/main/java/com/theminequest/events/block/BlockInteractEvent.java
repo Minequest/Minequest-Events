@@ -15,7 +15,16 @@ import com.theminequest.api.Managers;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.QuestEvent;
 import com.theminequest.api.quest.event.UserQuestEvent;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "Event",
+		ident = "BlockInteractEvent",
+		description = "Trigger a task upon interaction with a block.",
+		arguments = { "X", "Y", "Z", "Next Task" },
+		typeArguments = { DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.INT }
+		)
 public class BlockInteractEvent extends QuestEvent implements UserQuestEvent, Listener {
 	
 	private Location loc;

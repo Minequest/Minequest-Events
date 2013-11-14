@@ -1,5 +1,15 @@
 package com.theminequest.events.entity;
 
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
+
+@V1Documentation(
+		type = "Event",
+		ident = "EntitySpawnerNoMove",
+		description = "Spawn entities that can't move, repeatedly at a location.",
+		arguments = { "Initial Delay", "X", "Y", "Z", "Entity Type", "Drop Items?" },
+		typeArguments = { DocArgType.INT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.STRING, DocArgType.BOOL }
+		)
 public class EntitySpawnerNoMove extends EntitySpawnerEvent {
 
 	/*

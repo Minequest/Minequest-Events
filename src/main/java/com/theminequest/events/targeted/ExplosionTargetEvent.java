@@ -9,7 +9,16 @@ import com.theminequest.api.Managers;
 import com.theminequest.api.platform.entity.MQPlayer;
 import com.theminequest.api.quest.event.TargetedQuestEvent;
 import com.theminequest.api.util.NumberUtils;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "TargetEvent",
+		ident = "ExplosionTargetEvent",
+		description = "Cause explosions at the specified target.",
+		arguments = { "Radius", "Damage", "Set Fire?" },
+		typeArguments = { DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.BOOL }
+		)
 public class ExplosionTargetEvent extends TargetedQuestEvent {
 			
 	private double radius;

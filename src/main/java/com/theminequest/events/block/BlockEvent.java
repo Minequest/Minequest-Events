@@ -10,7 +10,16 @@ import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.DelayedQuestEvent;
 import com.theminequest.bukkit.util.ItemUtils;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "Event",
+		ident = "BlockEvent",
+		description = "Set a block at location.",
+		arguments = { "Delay", "X", "Y", "Z", "Block" },
+		typeArguments = { DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.STRING }
+		)
 public class BlockEvent extends DelayedQuestEvent {
 	
 	private long delay;
@@ -47,9 +56,8 @@ public class BlockEvent extends DelayedQuestEvent {
 		Location l = new Location(w, X, Y, Z);
 		Block b = l.getBlock();
 		if (material != null) {
-			boolean status = b.setTypeId(material.getId());
-			if (status)
-				return CompleteStatus.SUCCESS;
+			b.setType(material);
+			return CompleteStatus.SUCCESS;
 		}
 		return CompleteStatus.WARNING;
 	}

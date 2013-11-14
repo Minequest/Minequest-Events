@@ -7,7 +7,16 @@ import org.bukkit.World;
 import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.DelayedQuestEvent;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "Event",
+		ident = "LightningEvent",
+		description = "Strike lightning at a given location",
+		arguments = { "Initial Delay", "X", "Y", "Z" },
+		typeArguments = { DocArgType.INT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.FLOAT }
+		)
 public class LightningEvent extends DelayedQuestEvent {
 	
 	private long delay;

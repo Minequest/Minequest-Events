@@ -10,7 +10,16 @@ import com.theminequest.api.platform.MQLocation;
 import com.theminequest.api.platform.entity.MQPlayer;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.TargetedQuestEvent;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "TargetEvent",
+		ident = "TeleportEvent",
+		description = "Teleport the target to a specified location.",
+		arguments = { "X", "Y", "Z" },
+		typeArguments = { DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.FLOAT }
+		)
 public class TeleportEvent extends TargetedQuestEvent {
 	
 	private MQLocation loc;

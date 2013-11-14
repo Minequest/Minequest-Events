@@ -9,7 +9,16 @@ import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.DelayedQuestEvent;
 import com.theminequest.bukkit.util.MobUtils;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "Event",
+		ident = "EntitySpawnNumberEvent",
+		description = "Spawn a number of entities at a given location.",
+		arguments = { "Initial Delay", "X", "Y", "Z", "Entity Type", "Amount" },
+		typeArguments = { DocArgType.INT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.STRING, DocArgType.INT }
+		)
 public class EntitySpawnNumberEvent extends DelayedQuestEvent {
 	
 	private long delay;

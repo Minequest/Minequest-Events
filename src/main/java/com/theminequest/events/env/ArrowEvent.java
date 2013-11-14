@@ -8,7 +8,16 @@ import org.bukkit.util.Vector;
 import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.DelayedQuestEvent;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "Event",
+		ident = "ArrowEvent",
+		description = "Fire an arrow from a location towards another",
+		arguments = { "Initial Delay", "from X", "from Y", "from Z", "to X", "to Y", "to Z" },
+		typeArguments = { DocArgType.INT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.FLOAT }
+		)
 public class ArrowEvent extends DelayedQuestEvent {
 	
 	private long delay;

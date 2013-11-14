@@ -12,7 +12,16 @@ import com.theminequest.api.quest.Quest;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.DelayedQuestEvent;
 import com.theminequest.api.quest.event.UserQuestEvent;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "Event",
+		ident = "AreaEvent",
+		description = "Trigger a task when all members have entered an area.",
+		arguments = { "Delay", "Task", "X", "Y", "Z", "Radius" },
+		typeArguments = { DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.FLOAT }
+		)
 public class AreaEvent extends DelayedQuestEvent implements UserQuestEvent {
 	
 	private long delay;

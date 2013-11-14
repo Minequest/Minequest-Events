@@ -5,7 +5,16 @@ import java.util.Collection;
 import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.platform.entity.MQPlayer;
 import com.theminequest.api.quest.event.TargetedQuestEvent;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "TargetEvent",
+		ident = "HealthTargetEvent",
+		description = "Heals the player by a percentage of their maximum health.",
+		arguments = { "Percentage (-100 to 100)" },
+		typeArguments = { DocArgType.FLOAT }
+		)
 public class HealthTargetEvent extends TargetedQuestEvent {
 	
 	private double percentage;

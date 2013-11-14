@@ -6,7 +6,16 @@ import org.bukkit.World;
 import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.DelayedQuestEvent;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "Event",
+		ident = "WeatherEvent",
+		description = "Change the weather.",
+		arguments = { "Delay", "Stormy?", "Duration (ticks)" },
+		typeArguments = { DocArgType.INT, DocArgType.BOOL, DocArgType.INT }
+		)
 public class WeatherEvent extends DelayedQuestEvent {
 	
 	private long delay;

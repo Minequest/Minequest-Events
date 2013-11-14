@@ -22,7 +22,16 @@ import java.util.List;
 
 import com.theminequest.api.platform.entity.MQPlayer;
 import com.theminequest.api.quest.QuestDetails;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "Event",
+		ident = "SingleAreaEvent",
+		description = "Trigger a task when one member have entered an area.",
+		arguments = { "Delay", "Task", "X", "Y", "Z", "Radius" },
+		typeArguments = { DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.INT, DocArgType.FLOAT }
+		)
 public class SingleAreaEvent extends AreaEvent {
 	private MQPlayer trigger = null;
 

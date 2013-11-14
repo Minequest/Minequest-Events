@@ -8,7 +8,16 @@ import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.DelayedQuestEvent;
 import com.theminequest.api.util.NumberUtils;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "Event",
+		ident = "ExplosionEvent",
+		description = "Create an explosion at a given location",
+		arguments = { "Initial Delay", "X", "Y", "Z", "radius", "damage" },
+		typeArguments = { DocArgType.INT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.FLOAT }
+		)
 public class ExplosionEvent extends DelayedQuestEvent {
 	
 	private long delay;

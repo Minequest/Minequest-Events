@@ -10,7 +10,16 @@ import org.bukkit.potion.PotionEffectType;
 import com.theminequest.api.CompleteStatus;
 import com.theminequest.api.platform.entity.MQPlayer;
 import com.theminequest.api.quest.event.TargetedQuestEvent;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "TargetEvent",
+		ident = "PoisonEvent",
+		description = "Poison the specified target.",
+		arguments = { "Poison length (sec)" },
+		typeArguments = { DocArgType.INT }
+		)
 public class PoisonEvent extends TargetedQuestEvent {
 
 	private int times;

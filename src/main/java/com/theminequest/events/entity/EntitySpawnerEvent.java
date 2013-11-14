@@ -24,7 +24,16 @@ import com.theminequest.api.platform.entity.MQPlayer;
 import com.theminequest.api.quest.QuestDetails;
 import com.theminequest.api.quest.event.DelayedQuestEvent;
 import com.theminequest.bukkit.util.MobUtils;
+import com.theminequest.doc.DocArgType;
+import com.theminequest.doc.V1Documentation;
 
+@V1Documentation(
+		type = "Event",
+		ident = "EntitySpawnerEvent",
+		description = "Spawn entities repeatedly at a location.",
+		arguments = { "Initial Delay", "X", "Y", "Z", "Entity Type", "Drop Items?" },
+		typeArguments = { DocArgType.INT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.FLOAT, DocArgType.STRING, DocArgType.BOOL }
+		)
 public class EntitySpawnerEvent extends DelayedQuestEvent implements Listener {
 	
 	private long delay;
